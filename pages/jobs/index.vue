@@ -1,6 +1,7 @@
 <template>
     <!-- Start Hero -->
-    <section class="relative table w-full py-36 bg-[url('../../assets/images/hero/bg.jpg')] bg-top bg-no-repeat bg-cover">
+    <section
+        class="relative table w-full py-36 bg-[url('../../assets/images/hero/bg.jpg')] bg-top bg-no-repeat bg-cover">
         <div class="absolute inset-0 bg-emerald-900/90"></div>
         <div class="container">
             <div class="grid grid-cols-1 text-center mt-10">
@@ -14,7 +15,7 @@
             <ul class="breadcrumb tracking-[0.5px] breadcrumb-light mb-0 inline-block">
                 <li
                     class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white/50 hover:text-white">
-                    <NuxtLink to="/">Jobstack</NuxtLink>
+                    <NuxtLink to="/">Alfajirijobs</NuxtLink>
                 </li>
                 <li class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white"
                     aria-current="page">Job Listing</li>
@@ -35,7 +36,8 @@
             <div v-if="paginatedJobs">
                 <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
                     <div class="lg:col-span-4 md:col-span-6">
-                        <div class="shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900 sticky top-20">
+                        <div
+                            class="shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900 sticky top-20">
                             <form>
                                 <div class="grid grid-cols-1 gap-3">
                                     <div>
@@ -80,12 +82,13 @@
                                                         <input
                                                             class="form-checkbox rounded border-gray-200 dark:border-gray-800 text-emerald-600 focus:border-emerald-300 focus:ring focus:ring-offset-0 focus:ring-emerald-200 focus:ring-opacity-50 me-2"
                                                             type="checkbox" value="" id="fulltime">
-                                                        <label class="form-checkbox-label text-slate-400" for="fulltime">{{
-                                                            jobType.name }}</label>
+                                                        <label class="form-checkbox-label text-slate-400"
+                                                            for="fulltime">{{
+                jobType.name }}</label>
                                                     </div>
                                                     <span
                                                         class="bg-emerald-600/10 text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full h-5">{{
-                                                            jobType.count }}</span>
+                jobType.count }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,9 +118,11 @@
 
                                         <div class="ms-3">
                                             <NuxtLink :to="'/jobs/' + job.slug"
-                                                class="inline-block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500 me-1">{{
-                                                job.title }}</NuxtLink>
-                                            <span class="inline-block text-sm text-slate-400">{{ job.timesince }} ago</span>
+                                                class="inline-block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500 me-1">
+                                                {{
+                job.title }}</NuxtLink>
+                                            <span class="inline-block text-sm text-slate-400">{{ job.timesince }}
+                                                ago</span>
                                             <div>
                                                 <span
                                                     class="bg-emerald-600/10 inline-block text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
@@ -129,21 +134,20 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <p class="text-slate-400 py-3">{{ job.description }}
-                                    </p>
-
+                                    <p class="text-slate-400 py-3 truncate">{{ job.truncated_description }}</p>
                                     <div v-if="job.skills && job.skills">
                                         <span v-for="skill in job.skills" :key="skill.id"
                                             class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">{{
-                                                skill.name }}</span>
+                skill.name }}</span>
                                     </div>
                                 </div>
 
-                                <div class="px-6 py-2 bg-slate-50 dark:bg-slate-800 lg:flex justify-between items-center">
+                                <div
+                                    class="px-6 py-2 bg-slate-50 dark:bg-slate-800 lg:flex justify-between items-center">
                                     <div class="lg:inline-block flex justify-between">
                                         <span class="inline-block me-1 font-semibold">
-                                            <Icon name="uil:eye" class="text-xl text-slate-400 dark:text-slate-300 me-1" />
+                                            <Icon name="uil:eye"
+                                                class="text-xl text-slate-400 dark:text-slate-300 me-1" />
                                             {{ job.view_count }}
                                         </span>
                                         <span class="inline-block me-1 text-slate-400">
@@ -178,7 +182,7 @@
                                             <a @click="setCurrentPage(page)"
                                                 :class="currentPage === page ? 'bg-emerald-600 text-white' : 'text-slate-400'"
                                                 class="size-[40px] inline-flex justify-center items-center bg-white dark:bg-slate-900 rounded-s-3xl hover:text-white border border-gray-100 dark:border-gray-800 hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600">{{
-                                                    page }}</a>
+                                                page }}</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -191,11 +195,13 @@
 
         <div class="container md:mt-24 mt-16">
             <div class="grid grid-cols-1 pb-8 text-center">
-                <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Here's why you'll
-                    love it Jobstack</h3>
+                <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Here's why
+                    you'll
+                    love it Alfajirijobs</h3>
 
-                <p class="text-slate-400 max-w-xl mx-auto">Search all the open positions on the web. Get your own
-                    personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+                <p class="text-slate-400 max-w-xl mx-auto">Explore numerous job opportunities, gain personalized
+                    insights, and access comprehensive company details within our extensive database.</p>
+
             </div><!--end grid-->
 
             <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-8 gap-[30px]">
@@ -203,17 +209,18 @@
                     class="group p-6 shadow dark:shadow-gray-700 rounded-md bg-white hover:bg-emerald-600/5 dark:bg-slate-900 dark:hover:bg-emerald-600/10 text-center transition-all duration-500">
                     <div
                         class="size-16 flex items-center justify-center mx-auto bg-emerald-600/5 group-hover:bg-emerald-600 dark:bg-emerald-600/10 dark:group-hover:bg-emerald-600 shadow dark:shadow-gray-700 rounded-lg transition-all duration-500">
-                        <i class="uil uil-phone text-[30px] text-emerald-600 group-hover:text-white"></i>
+                        <Icon name="uil:phone" class="text-[30px] text-emerald-600 group-hover:text-white" />
                     </div>
 
                     <div class="mt-4">
-                        <a href="" class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">24/7
-                            Support</a>
-
+                        <NuxtLink to="/aboutus"
+                            class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">24/7
+                            Support</NuxtLink>
                         <p class="text-slate-400 mt-3 mb-2">Many desktop publishing now use and a search for job.</p>
-
-                        <a href="" class="hover:text-emerald-600 font-medium transition-all duration-500">Read More <i
-                                class="uil uil-arrow-right"></i></a>
+                        <NuxtLink to="/aboutus" class="hover:text-emerald-600 font-medium transition-all duration-500">
+                            Read More
+                            <Icon name="uil:arrow-right" class="text-emerald-600" />
+                        </NuxtLink>
                     </div>
                 </div><!--end content-->
 
@@ -221,17 +228,18 @@
                     class="group p-6 shadow dark:shadow-gray-700 rounded-md bg-white hover:bg-emerald-600/5 dark:bg-slate-900 dark:hover:bg-emerald-600/10 text-center transition-all duration-500">
                     <div
                         class="size-16 flex items-center justify-center mx-auto bg-emerald-600/5 group-hover:bg-emerald-600 dark:bg-emerald-600/10 dark:group-hover:bg-emerald-600 shadow dark:shadow-gray-700 rounded-lg transition-all duration-500">
-                        <i class="uil uil-atom text-[30px] text-emerald-600 group-hover:text-white"></i>
+                        <Icon name="uil:atom" class="text-[30px] text-emerald-600 group-hover:text-white" />
                     </div>
 
                     <div class="mt-4">
-                        <a href="" class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Tech &
-                            Startup Jobs</a>
-
+                        <NuxtLink to="/aboutus"
+                            class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Tech
+                            & Startup Jobs</NuxtLink>
                         <p class="text-slate-400 mt-3 mb-2">Many desktop publishing now use and a search for job.</p>
-
-                        <a href="" class="hover:text-emerald-600 font-medium transition-all duration-500">Read More <i
-                                class="uil uil-arrow-right"></i></a>
+                        <NuxtLink to="/aboutus" class="hover:text-emerald-600 font-medium transition-all duration-500">
+                            Read More
+                            <Icon name="uil:arrow-right" class="text-emerald-600" />
+                        </NuxtLink>
                     </div>
                 </div><!--end content-->
 
@@ -239,17 +247,19 @@
                     class="group p-6 shadow dark:shadow-gray-700 rounded-md bg-white hover:bg-emerald-600/5 dark:bg-slate-900 dark:hover:bg-emerald-600/10 text-center transition-all duration-500">
                     <div
                         class="size-16 flex items-center justify-center mx-auto bg-emerald-600/5 group-hover:bg-emerald-600 dark:bg-emerald-600/10 dark:group-hover:bg-emerald-600 shadow dark:shadow-gray-700 rounded-lg transition-all duration-500">
-                        <i class="uil uil-user-arrows text-[30px] text-emerald-600 group-hover:text-white"></i>
+                        <Icon name="uil:user-arrows" class="text-[30px] text-emerald-600 group-hover:text-white" />
                     </div>
 
                     <div class="mt-4">
-                        <a href="" class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Quick &
-                            Easy</a>
+                        <NuxtLink to="/aboutus"
+                            class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Quick &
+                            Easy</NuxtLink>
 
                         <p class="text-slate-400 mt-3 mb-2">Many desktop publishing now use and a search for job.</p>
-
-                        <a href="" class="hover:text-emerald-600 font-medium transition-all duration-500">Read More <i
-                                class="uil uil-arrow-right"></i></a>
+                        <NuxtLink to="/aboutus" class="hover:text-emerald-600 font-medium transition-all duration-500">
+                            Read More
+                            <Icon name="uil:arrow-right" class="text-emerald-600" />
+                        </NuxtLink>
                     </div>
                 </div><!--end content-->
 
@@ -257,17 +267,18 @@
                     class="group p-6 shadow dark:shadow-gray-700 rounded-md bg-white hover:bg-emerald-600/5 dark:bg-slate-900 dark:hover:bg-emerald-600/10 text-center transition-all duration-500">
                     <div
                         class="size-16 flex items-center justify-center mx-auto bg-emerald-600/5 group-hover:bg-emerald-600 dark:bg-emerald-600/10 dark:group-hover:bg-emerald-600 shadow dark:shadow-gray-700 rounded-lg transition-all duration-500">
-                        <i class="uil uil-hourglass text-[30px] text-emerald-600 group-hover:text-white"></i>
+                        <Icon name="uil:hourglass" class="text-[30px] text-emerald-600 group-hover:text-white" />
                     </div>
 
                     <div class="mt-4">
-                        <a href="" class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Save
-                            Time</a>
-
+                        <NuxtLink to="/aboutus"
+                            class="text-lg font-semibold hover:text-emerald-600 transition-all duration-500">Save
+                            Time</NuxtLink>
                         <p class="text-slate-400 mt-3 mb-2">Many desktop publishing now use and a search for job.</p>
-
-                        <a href="" class="hover:text-emerald-600 font-medium transition-all duration-500">Read More <i
-                                class="uil uil-arrow-right"></i></a>
+                        <NuxtLink to="/aboutus" class="hover:text-emerald-600 font-medium transition-all duration-500">
+                            Read More
+                            <Icon name="uil:arrow-right" class="text-emerald-600" />
+                        </NuxtLink>
                     </div>
                 </div><!--end content-->
             </div><!--end grid-->
@@ -284,34 +295,39 @@
                                         free!
                                     </h3>
                                     <p class="text-slate-400 max-w-xl">
-                                        be ready to get the best candidates for your company when you add a new job vacancy
-                                        on our platform.
-                                        It's free and easy to add a new job vacancy on our platform. Start hiring top talent
-                                        today!
+                                        Get ready to find your next superstar team member when you post a job vacancy on
+                                        our platform! It's a breeze to add a new job listing, and it won't cost you a
+                                        dime. Join us today and tap into a pool of top-notch talent ready to bring fresh
+                                        energy to your team!
                                     </p>
                                 </div>
                             </div><!--end col-->
 
                             <div class="lg:col-span-4 md:col-span-5">
                                 <div class="text-end relative z-1">
-                                    <a href="employer-detail.html"
-                                        class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">Apply
-                                        Now</a>
-                                    <a href="aboutus.html"
-                                        class="btn bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-2">Learn
-                                        More</a>
+                                    <NuxtLink to="/companies/add-job"
+                                        class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">
+                                        Add
+                                        Job</NuxtLink>
+                                    <NuxtLink to="/aboutus"
+                                        class="btn bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-2">
+                                        Learn
+                                        More</NuxtLink>
                                 </div>
                             </div><!--end col-->
                         </div><!--end grid-->
 
                         <div class="absolute -top-5 -start-5">
-                            <div
-                                class="uil uil-envelope lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45">
+                            <div>
+                                <Icon name="uil-envelope"
+                                    class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45" />
                             </div>
                         </div>
 
                         <div class="absolute -bottom-5 -end-5">
-                            <div class="uil uil-pen lg:text-[150px] text-7xl text-black/5 dark:text-white/5 rtl:-rotate-90">
+                            <div>
+                                <Icon name="uil-pen"
+                                    class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-90 rtl:rotate-90" />
                             </div>
                         </div>
                     </div>

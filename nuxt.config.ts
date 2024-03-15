@@ -16,4 +16,11 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  vite: {
+    server: {
+      fs: {
+        strict: false
+      }
+    }
+  }
 })

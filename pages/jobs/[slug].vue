@@ -4,8 +4,7 @@
     <div class="absolute inset-0 bg-emerald-900/90"></div>
     <div class="container">
       <div class="grid grid-cols-1 text-center mt-10">
-        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">Back-End
-          Developer</h3>
+        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">{{ job.title || 'Job Detail'  }}</h3>
 
       </div><!--end grid-->
     </div><!--end container-->
@@ -14,14 +13,14 @@
       <ul class="breadcrumb tracking-[0.5px] breadcrumb-light mb-0 inline-block">
         <li
           class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white/50 hover:text-white">
-          <a href="index.html">Jobstack</a>
+          <NuxtLink to="/">Home</NuxtLink>
         </li>
         <li
           class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white/50 hover:text-white">
-          <a href="job-grid-two.html">Jobs</a>
+          <NuxtLink to="/jobs">Jobs</NuxtLink>
         </li>
         <li class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white"
-          aria-current="page">Job Detail</li>
+          aria-current="page">{{ job.title || 'Job Detail' }}</li>
       </ul>
     </div>
   </section><!--end section-->
@@ -59,7 +58,7 @@
 
                     <div class="ms-4">
                       <p class="font-medium">Employee Type:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.job_type || 'N/A' }}</span>
+                      <span class="text-emerald-600 font-medium text-sm">{{ job.job_type || 'Not Specified ' }}</span>
                     </div>
                   </li>
 
@@ -68,7 +67,7 @@
 
                     <div class="ms-4">
                       <p class="font-medium">Location:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.address }}, {{ job.get_location }}</span>
+                      <span class="text-emerald-600 font-medium text-sm">{{ job.address || 'Not Specified ' }}, {{ job.get_location || 'Not Specified ' }}</span>
                     </div>
                   </li>
 
@@ -86,7 +85,7 @@
 
                     <div class="ms-4">
                       <p class="font-medium">Experience:</p>
-                      <span class="text-emerald-600 font-medium text-sm"> {{ job.work_experience }}+ years</span>
+                      <span class="text-emerald-600 font-medium text-sm"> {{ job.work_experience || 'Not Specified ' }}+ years</span>
                     </div>
                   </li>
 
@@ -95,7 +94,7 @@
 
                     <div class="ms-4">
                       <p class="font-medium">Qualifications:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.education_level }}</span>
+                      <span class="text-emerald-600 font-medium text-sm">{{ job.education_level  || 'Not Specified '}}</span>
                     </div>
                   </li>
 
@@ -104,7 +103,7 @@
 
                     <div class="ms-4">
                       <p class="font-medium">Salary:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.currency }}{{ job.salary }} - {{
+                      <span class="text-emerald-600 font-medium text-sm">{{ job.currency }}{{ job.salary || 'Not Specified ' }} - {{
                         job.currency }}{{ job.salary }}</span>
                     </div>
                   </li>
@@ -153,12 +152,11 @@
             <div class="flex items-center">
               <div
                 class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                <img src="assets/images/company/facebook-logo.png" class="size-8" alt="">
+                <img src="~/assets/images/company/facebook-logo.png" class="size-8" alt="">
               </div>
 
               <div class="ms-3">
-                <!-- slug -->
-                <NuxtLink :to="`/companies/${company.slug}`"
+                <NuxtLink :to="`/companies/${job.company.slug}`"
                   class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{
                     job.get_company }}</NuxtLink>
                 <span class="block text-sm text-slate-400">{{ job.timesince }} ago</span>

@@ -45,14 +45,6 @@ export const useJobStore = defineStore('job', {
       });
     },
 
-    async fetchJobsByUser() {
-      await this.handleError(async () => {
-        const response = await fetch(`${BASE_URL}/jobs/my`);
-        const data = await response.json();
-        this.jobs = data;
-      });
-    },
-
     async fetchMyJobs() {
       await this.handleError(async () => {
         const accountStore = useAccountStore();
@@ -62,6 +54,14 @@ export const useJobStore = defineStore('job', {
             'Authorization': `Bearer ${accountStore.token}`,
           },
         });
+        const data = await response.json();
+        this.jobs = data;
+      });
+    },
+    // fetch jobs by category slug
+    async fetchJobsByCategory(slug) {
+      await this.handleError(async () => {
+        const response = await fetch(`${BASE_URL}/jobs/categories/${slug}`);
         const data = await response.json();
         this.jobs = data;
       });
