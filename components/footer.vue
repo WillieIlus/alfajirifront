@@ -56,26 +56,6 @@
                         </div>
                         <ul class="list-none md:text-end text-center space-x-0.5">
                             <li class="inline">
-                                <NuxtLink to="https://1.envato.market/jobstack" target="_blank"
-                                    class="btn btn-icon btn-sm border-2 border-gray-800 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 text-white">
-                                    <Icon name="uil:shopping-cart" size="24px" color="white" />
-                                </NuxtLink>
-                            </li>
-                            <li class="inline">
-                                <NuxtLink to="https://dribbble.com/alfajirijobs" target="_blank"
-                                    class="btn btn-icon btn-sm border-2 border-gray-800 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 text-white">
-                                    <NuxtLink to="https://dribbble.com/alfajirijobs" target="_blank" class="btn btn-icon btn-sm border-2 border-gray-800 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 text-white">
-                                        <Icon name="uil:dribbble" size="24px" color="white" />
-                                    </NuxtLink>
-                                </NuxtLink>
-                            </li>
-                            <li class="inline">
-                                <NuxtLink to="https://www.behance.net/alfajirijobs" target="_blank"
-                                    class="btn btn-icon btn-sm border-2 border-gray-800 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 text-white">
-                                    <Icon name="uil:behance" size="24px" color="white" />
-                                </NuxtLink>
-                            </li>
-                            <li class="inline">
                                 <NuxtLink to="http://linkedin.com/company/alfajirijobs" target="_blank"
                                     class="btn btn-icon btn-sm border-2 border-gray-800 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 text-white">
                                     <Icon name="uil:linkedin" size="24px" color="white" />

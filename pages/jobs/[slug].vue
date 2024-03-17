@@ -152,6 +152,24 @@
       </div><!--end grid-->
     </div><!--end container-->
 
+    <!-- a new container with grid for social share -->
+    <div class="containr mt-10">
+      <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
+        <div class="lg:col-span-8 md:col-span-6">
+          <div class="p-6 shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900">
+            <h5 class="text-lg font-semibold">Share this job</h5>
+            <div class="mt-4">
+              <div class="flex items-center gap-4">
+              <!-- <SocialShare network="facebook" />
+              <SocialShare network="twitter" />
+              <SocialShare network="linkedin" /> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container lg:mt-24 mt-16">
       <div class="grid grid-cols-1 pb-8 text-center">
         <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Related Vacancies</h3>
@@ -327,6 +345,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useJobStore } from '~/store/jobs'
 import { useCategoryStore } from '~/store/categories'
 import { useLocationStore } from '~/store/locations'
+
 
 const jobStore = useJobStore()
 const categoryStore = useCategoryStore()

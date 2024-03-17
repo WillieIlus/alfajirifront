@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@vee-validate/nuxt',
     '@nuxt/image',
+    '@stefanobartoletti/nuxt-social-share',
   ],
   postcss: {
     plugins: {
