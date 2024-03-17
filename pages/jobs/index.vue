@@ -28,7 +28,11 @@
     <section class="relative md:py-24 py-16">
         <div class="container">
             <div v-if="loading" class="col-span-12 text-center">
-                <div class="spinner"></div>
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
             </div>
             <div v-if="error" class="col-span-12 text-center">
                 <p class="text-red-500">Error: {{ error.message }}</p>
@@ -113,7 +117,8 @@
                                     <div class="flex items-center">
                                         <div
                                             class="size-14 min-w-[56px] flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                                            <img src="assets/images/company/facebook-logo.png" class="size-8" alt="">
+                                            
+                                            <img :src="job.company.logo" class="size-8" alt="">
                                         </div>
 
                                         <div class="ms-3">

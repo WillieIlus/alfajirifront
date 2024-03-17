@@ -73,7 +73,7 @@
             <p class="text-slate-400 mt-4">{{ job.description }}</p>
 
             <div class="mt-5">
-              <NuxtLink to="/job/job-apply"
+              <NuxtLink :to="'mailto:' + job.email ?? job.company.email ?? ''"
                 class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">
                 Apply
                 Now</NuxtLink>
@@ -150,11 +150,7 @@
           </div>
         </div><!--end col-->
       </div><!--end grid-->
-    </div><!--end container-->
-
-    <!-- a new container with grid for social share -->
-    <div class="containr mt-10">
-      <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
+      <div class="pt-6 grid md:grid-cols-12 grid-cols-1 gap-[30px]">
         <div class="lg:col-span-8 md:col-span-6">
           <div class="p-6 shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900">
             <h5 class="text-lg font-semibold">Share this job</h5>

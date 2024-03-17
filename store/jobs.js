@@ -47,7 +47,7 @@ export const useJobStore = defineStore('job', {
     // set fetchjob to no cors
     async fetchJobs() {
       await this.handleError(async () => {
-        const response = await fetch(`${BASE_URL}/jobs`, { mode: 'no-cors' });
+        const response = await fetch(`${BASE_URL}/jobs`);
         const data = await response.json();
         this.jobs = data;
       });
