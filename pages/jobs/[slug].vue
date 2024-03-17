@@ -4,10 +4,12 @@
     <div class="absolute inset-0 bg-emerald-900/90"></div>
     <div class="container">
       <div class="grid grid-cols-1 text-center mt-10">
-        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">{{ job.title || 'Job Detail'  }}</h3>
+        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">{{ 'Job Title' }}</h3>
 
-      </div><!--end grid-->
-    </div><!--end container-->
+      </div>
+      <!--end grid-->
+    </div>
+    <!--end container-->
 
     <div class="absolute text-center z-10 bottom-5 start-0 end-0 mx-3">
       <ul class="breadcrumb tracking-[0.5px] breadcrumb-light mb-0 inline-block">
@@ -20,10 +22,11 @@
           <NuxtLink to="/jobs">Jobs</NuxtLink>
         </li>
         <li class="inline breadcrumb-item text-[15px] font-semibold duration-500 ease-in-out text-white"
-          aria-current="page">{{ job.title || 'Job Detail' }}</li>
+          aria-current="page">{{ 'Job Title' }}</li>
       </ul>
     </div>
-  </section><!--end section-->
+  </section>
+  <!--end section-->
   <div class="relative">
     <div
       class="shape absolute start-0 end-0 sm:-bottom-px -bottom-[2px] overflow-hidden z-1 text-white dark:text-slate-900">
@@ -32,107 +35,120 @@
       </svg>
     </div>
   </div>
+
   <!-- End Hero -->
-
   <!-- Start -->
-  <!-- Start -->
-  <section class="relative md:py-24 py-16">
-    <div class="container">
-      <div v-if="loading" class="col-span-12 text-center">
-        <div class="spinner"></div>
-      </div>
-      <div v-if="error" class="col-span-12 text-center">
-        <p class="text-red-500">Error: {{ error.message }}</p>
-      </div>
-      <div v-if="job">
-        <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
-          <div class="lg:col-span-4 md:col-span-6">
-            <div class="shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900 sticky top-20">
-              <div class="p-6">
-                <h5 class="text-lg font-semibold">Job Information</h5>
-              </div>
-              <div class="p-6 border-t border-slate-100 dark:border-t-gray-700">
-                <ul class="list-none">
-                  <li class="flex items-center">
-                    <i data-feather="user-check" class="size-5"></i>
 
-                    <div class="ms-4">
-                      <p class="font-medium">Employee Type:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.job_type || 'Not Specified ' }}</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="map-pin" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Location:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.address || 'Not Specified ' }}, {{ job.get_location || 'Not Specified ' }}</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="monitor" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Job Type:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.title }}</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="briefcase" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Experience:</p>
-                      <span class="text-emerald-600 font-medium text-sm"> {{ job.work_experience || 'Not Specified ' }}+ years</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="book" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Qualifications:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.education_level  || 'Not Specified '}}</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="dollar-sign" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Salary:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ job.currency }}{{ job.salary || 'Not Specified ' }} - {{
-                        job.currency }}{{ job.salary }}</span>
-                    </div>
-                  </li>
-
-                  <li class="flex items-center mt-3">
-                    <i data-feather="clock" class="size-5"></i>
-
-                    <div class="ms-4">
-                      <p class="font-medium">Date posted:</p>
-                      <span class="text-emerald-600 font-medium text-sm">{{ new
-                        Date(job.get_created_at).toLocaleDateString() }}</span>
-                    </div>
-                  </li>
-                </ul>
+  <section class="bg-slate-50 dark:bg-slate-800 md:py-24 py-16">
+    <div class="container mt-10">
+      <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
+        <div class="lg:col-span-8 md:col-span-6">
+          <div v-if="loading" class="text-center">
+            <div class="spinner spinner-primary"></div>
+          </div>
+          <div v-else-if="error" class="text-center">
+            <p class="text-red-500">{{ error }}</p>
+          </div>
+          <div v-if="job">
+            <div class="md:flex items-center p-6 shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900">
+              <img :src="job.company.logo"
+                class="rounded-full size-28 p-4 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700" alt="">
+              <div class="md:ms-4 md:mt-0 mt-6">
+                <h5 class="text-xl font-semibold">{{ job.title || 'Job Title'}}</h5>
+                <div class="mt-2">
+                  <span class="text-slate-400 font-medium me-2 inline-block">
+                    <Icon name="uil:building" class="text-[18px] text-emerald-600 me-1" />
+                    {{ job.company.name }}
+                  </span>
+                  <span class="text-slate-400 font-medium me-2 inline-block">
+                    <Icon name="uil:map-pin" class="text-[18px] text-emerald-600 me-1" />
+                    {{ job.location.name }}
+                  </span>
+                </div>
               </div>
             </div>
-          </div><!--end col-->
 
-          <div class="lg:col-span-8 md:col-span-6">
-            <h5 class="text-lg font-semibold">Job Description:</h5>
+            <h5 class="text-lg font-semibold mt-6">Job Description:</h5>
 
-            <div class="text-slate-400 mt-4">{{ job.description }}</div>
+            <p class="text-slate-400 mt-4">{{ job.description }}</p>
+
             <div class="mt-5">
-              <NuxtLink to="/job-apply"
+              <NuxtLink to="/job/job-apply"
                 class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">
-                Apply Now</NuxtLink>
+                Apply
+                Now</NuxtLink>
             </div>
-          </div><!--end col-->
-        </div>
+          </div>
+        </div><!--end col-->
+
+        <div v-if="job" class="lg:col-span-4 md:col-span-6">
+          <div class="shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900 sticky top-20">
+            <div class="p-6">
+              <h5 class="text-lg font-semibold">Job Information</h5>
+            </div>
+            <div class="p-6 border-t border-slate-100 dark:border-t-gray-700">
+              <ul class="list-none">
+                <li class="flex items-center">
+                  <Icon name="uil:user-check" class="size-5" />
+                  <div class="ms-4">
+                    <p class="font-medium">Employee Type:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.job_type || 'Not Specified' }}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:map-pin" class="size-5" />
+                  <div class="ms-4">
+                    <p class="font-medium">Location:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.address || job.location.name || 'Not Specified' }}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:monitor" class="size-5" />
+                  <div class="ms-4">
+                    <p class="font-medium">Job Type:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.job_type || 'Not Specified' }}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:briefcase" class="size-5" />
+                  <div class="ms-4">
+                    <p class="font-medium">Experience:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.work_experience || 'Not Specified'}}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:book" class="size-5" />
+                  <div class="ms-4">
+                    <p class="font-medium">Qualifications:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.education_level || 'Not Specified'}}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:money-bill" class="size-5" />
+                  <div v-if="job.min_salary" class="ms-4">
+                    <p class="font-medium">Salary:</p>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.currency }} {{ job.min_salary }} - {{ job.currency }} {{ job.max_salary }}</span>
+                  </div>
+                </li>
+
+                <li class="flex items-center mt-3">
+                  <Icon name="uil:calendar-alt" class="size-5" />
+
+                  <div class="ms-4">
+                    <p class="font-medium">Date posted:</p>
+                    <!-- show only date of created_at: "created_at": "2024-03-10T22:42:23.097763+03:00",-->
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.timesince }}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div><!--end col-->
       </div><!--end grid-->
     </div><!--end container-->
 
@@ -140,40 +156,36 @@
       <div class="grid grid-cols-1 pb-8 text-center">
         <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Related Vacancies</h3>
 
-        <p class="text-slate-400 dark:text-slate-300 max-w-xl mx-auto">Search all the open positions on the web. Get your
-          own personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
+        <p class="text-slate-400 dark:text-slate-300 max-w-xl mx-auto">Search all the open positions on the web. Get
+          your own personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
       </div><!--end grid-->
 
       <div class="grid lg:grid-cols-3 md:grid-cols-2 mt-8 gap-[30px]">
-        <!-- v for job in jobs in the div below  -->
-        <div v-for="job in jobs" :key="job.id"
-          class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
+        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div
                 class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                <img src="~/assets/images/company/facebook-logo.png" class="size-8" alt="">
+                <img src="" class="size-8" alt="">
               </div>
 
               <div class="ms-3">
-                <NuxtLink :to="`/companies/${job.company.slug}`"
-                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{
-                    job.get_company }}</NuxtLink>
-                <span class="block text-sm text-slate-400">{{ job.timesince }} ago</span>
+                <a href="employer-detail.html"
+                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Facebook</a>
+                <span class="block text-sm text-slate-400">2 days ago</span>
               </div>
             </div>
 
             <span
-              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">{{
-                job.job_type }}</span>
+              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Full
+              Time</span>
           </div>
 
           <div class="mt-6">
             <a href="job-detail-one.html"
-              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.title }}</a>
-            <h6 class="text-base font-medium">
-              <Icon name="uil:map-marker" />{{ job.address }}, {{ job.get_location }}
-            </h6>
+              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Web Designer /
+              Developer</a>
+            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> Australia</h6>
           </div>
 
           <div class="mt-6">
@@ -182,12 +194,88 @@
             </div>
             <div class="mt-2">
               <span class="text-slate-400 text-sm"><span
-                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40 vacancy</span>
+                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
+                vacancy</span>
             </div>
           </div>
         </div><!--end content-->
 
-      </div><!--end grid-->
+        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div
+                class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                <img src="" class="size-8" alt="">
+              </div>
+
+              <div class="ms-3">
+                <a href="employer-detail.html"
+                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Google</a>
+                <span class="block text-sm text-slate-400">2 days ago</span>
+              </div>
+            </div>
+
+            <span
+              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Part
+              Time</span>
+          </div>
+
+          <div class="mt-6">
+            <a href="job-detail-one.html"
+              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Marketing Director</a>
+            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> USA</h6>
+          </div>
+
+          <div class="mt-6">
+            <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-[6px]">
+              <div class="bg-emerald-600 h-[6px] rounded-full" style="width: 55%"></div>
+            </div>
+            <div class="mt-2">
+              <span class="text-slate-400 text-sm"><span
+                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
+                vacancy</span>
+            </div>
+          </div>
+        </div><!--end content-->
+
+        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div
+                class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                <img src="" class="size-8" alt="">
+              </div>
+
+              <div class="ms-3">
+                <a href="employer-detail.html"
+                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Android</a>
+                <span class="block text-sm text-slate-400">2 days ago</span>
+              </div>
+            </div>
+
+            <span
+              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Remote</span>
+          </div>
+
+          <div class="mt-6">
+            <a href="job-detail-one.html"
+              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Application Developer</a>
+            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> China</h6>
+          </div>
+
+          <div class="mt-6">
+            <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-[6px]">
+              <div class="bg-emerald-600 h-[6px] rounded-full" style="width: 55%"></div>
+            </div>
+            <div class="mt-2">
+              <span class="text-slate-400 text-sm"><span
+                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
+                vacancy</span>
+            </div>
+          </div>
+        </div><!--end content-->
+      </div>
+      <!--end grid-->
     </div><!--end container-->
 
     <div class="container-fluid md:mt-24 mt-16">
@@ -205,24 +293,22 @@
 
               <div class="lg:col-span-4 md:col-span-5">
                 <div class="text-end relative z-1">
-                  <a href="employer-detail.html"
+                  <NuxtLink to="/jobs/add-job"
                     class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">Apply
-                    Now</a>
-                  <a href="aboutus.html"
+                    Now</NuxtLink>
+                    <NuxtLink to="/about"
                     class="btn bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-2">Learn
-                    More</a>
+                    More</NuxtLink>
                 </div>
               </div>
             </div>
 
             <div class="absolute -top-5 -start-5">
-              <div
-                class="uil uil-envelope lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45">
-              </div>
+              <Icon name="uil-envelope" class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45"></Icon>
             </div>
 
             <div class="absolute -bottom-5 -end-5">
-              <div class="uil uil-pen lg:text-[150px] text-7xl text-black/5 dark:text-white/5 rtl:-rotate-90"></div>
+              <Icon name="uil-pen" class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-90 rtl:rotate-90"></Icon>
             </div>
           </div>
         </div><!--end grid-->
@@ -230,6 +316,9 @@
     </div><!--end container-->
   </section><!--end section-->
   <!-- End -->
+
+
+
 </template>
 <script setup>
 import { storeToRefs } from 'pinia'
@@ -247,9 +336,6 @@ const { job, jobs, loading, error } = storeToRefs(jobStore)
 const route = useRoute()
 const router = useRouter()
 
-const jobData = (job ?? {}).value?.title ?? 'Job Detail';
-const locationData = (job ?? {}).value?.location ?? '... '
-
 const breadcrumbs = [
   {
     label: 'Home',
@@ -265,40 +351,9 @@ const breadcrumbs = [
   }
 ]
 
-const pageTitle = jobData || 'Job Detail'
-
-const title = computed(() => {
-  const jobTitle = jobData || 'Job detail';
-  const locationName = locationData || 'Kenya';
-  return `${jobTitle} Job vacancy in ${locationName}`;
-});
-
-const description = computed(() => {
-  const jobTitle = jobData || 'Job detail';
-  const locationName = locationData || 'Kenya';
-  const lowerCaseJobTitle = typeof jobTitle === 'string' ? jobTitle.toLowerCase() : jobTitle;
-  const lowerCaseLocationName = typeof locationName === 'string' ? locationName.toLowerCase() : locationName;
-
-  return `Check out this ${lowerCaseJobTitle} jobs in ${lowerCaseLocationName}.`;
-});
-
-useHead({
-  title: title.value,
-  titleTemplate: '%s - Alfajir Jobs',
-  meta: [
-    { name: 'description', content: description.value },
-    { property: 'og:title', content: title.value },
-    { property: 'og:description', content: description.value },
-    { name: 'twitter:description', content: description.value },
-  ],
-});
 
 onMounted(async () => {
   await jobStore.fetchJob(route.params.slug)
-  // const categoryId = job.category || 1
-  // await jobStore.fetchJobs({ category: categoryId })
-  // await jobStore.fetchJobs({ category: job.value.category })
 })
 
 </script>
-
