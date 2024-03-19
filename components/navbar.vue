@@ -1,8 +1,8 @@
 <template>
   <nav id="topnav" class="defaultscroll is-sticky">
-    <div class="container">
+    <div class="container grid grid-cols-9 gap-4">
       <!-- Logo container -->
-      <NuxtLink to="/" class="logo">
+      <NuxtLink to="/" class="logo col-span-2">
         <div class="block sm:hidden">
           <img src="~/assets/images/logo-icon-40.png" class="h-10 inline-block dark:hidden" alt="" />
           <img src="~/assets/images/logo-icon-40-white.png" class="h-10 hidden dark:inline-block" alt="" />
@@ -32,7 +32,7 @@
       <!-- End Mobile Toggle -->
 
       <!-- Login button Start -->
-      <ul class="buy-button list-none mb-0">
+      <ul class="buy-button list-none mb-0 col-span-2">
         <li class=inline-block mb-0>
           <div class="relative top-[3px]">
             <Icon name="uil:search" class="text-lg absolute top-[3px] end-3" />
@@ -81,7 +81,7 @@
       </ul>
       <!-- Login button End -->
 
-      <div id="navigation">
+      <div id="navigation col-span-5">
         <!-- Navigation Menu -->
         <ul class="navigation-menu justify-end nav-light">
           <li class="has-submenu parent-menu-item">
@@ -92,7 +92,7 @@
           </li>
           <li class="has-submenu parent-menu-item">
             <NuxtLink to="/companies" class="sub-menu-item">Companies</NuxtLink>
-            <ul >
+            <ul>
 
             </ul>
           </li>

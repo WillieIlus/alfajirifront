@@ -1,0 +1,44 @@
+@layer utilities {
+    .font-plusjakarta {
+      @apply font-sans;
+    }
+    .text-base {
+      @apply text-base;
+    }
+    .text-black {
+      @apply text-black;
+    }
+    .dark-text-white {
+      @apply dark:text-white;
+    }
+    .leading-relaxed {
+      @apply leading-relaxed;
+    }
+    .leading-normal {
+      @apply leading-normal;
+    }
+    .bg-emerald-500-90 {
+      @apply bg-emerald-500/90;
+    }
+  }
+  
+  /* Extend the default 'body' tag styles */
+  body {
+    @apply font-plusjakarta text-base text-black dark:text-white;
+  }
+  
+  /* Extend the default 'p' tag styles */
+  p {
+    @apply leading-relaxed;
+  }
+  
+  /* Extend the default heading styles */
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    @apply font-plusjakarta leading-normal;
+  }
+  
+  /* Extend the default '::selection' styles */
+  ::selection {
+    @apply bg-emerald-500/90 text-white;
+  }
+  
