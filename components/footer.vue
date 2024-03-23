@@ -26,9 +26,14 @@
                                                 How it works</NuxtLink>
                                         </li>
                                         <li class="inline-block mt-[10px] md:mt-0">
-                                            <NuxtLink to="/jobs/create"
+                                            <NuxtLink to="/jobs/add-job"
                                                 class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">
-                                                Create a job</NuxtLink>
+                                                Add a job</NuxtLink>
+                                        </li>
+                                        <li class="inline-block mt-[10px] md:mt-0">
+                                            <NuxtLink to="/companies/add-company"
+                                                class="text-gray-300 hover:text-gray-400 duration-500 ease-in-out font-medium">
+                                                Add a company</NuxtLink>
                                         </li>
                                         <li class="inline-block mt-[10px] md:mt-0">
                                             <NuxtLink to="/about-us"

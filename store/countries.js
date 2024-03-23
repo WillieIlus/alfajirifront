@@ -23,18 +23,22 @@ export const useCountriesStore = defineStore('countries', {
         const accountStore = useAccountStore();
         const token = accountStore.token;
         const headers = {
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + token,
+          // 'Content-Type': 'multipart/form-data',
         };
+        console.log('Sending data to server: ', data);
         const response = await fetch(`${BASE_URL}/locations/countries/`, {
           method: 'POST',
           headers: headers,
           body: data,
         });
         if (!response.ok) {
+          const error = await response.json();
+          console.error('Error creating country:', error);
           throw new Error('Server responded with ' + response.status);
         }
         const responseData = await response.json();
-        console.log(responseData);
+        console.log('Server imerespond na', responseData);
       } catch (error) {
         console.error('Error submitting form:', error);
       }

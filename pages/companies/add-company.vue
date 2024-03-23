@@ -106,18 +106,6 @@
                   <ErrorMessage name="category" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Min Salary:</label>
-                  <input v-model="salary" type="number" name="Minimum Salary"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Salary">
-                  <ErrorMessage name="salary" class="text-red-500" />
-                </div>
-                <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Max Salary:</label>
-                  <input v-model="salary" type="number" name="Maximum Salary"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Salary">
-                  <ErrorMessage name="salary" class="text-red-500" />
-                </div>
-                <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Logo:</label>
                   <input type="file" @change="onFileChange"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Logo ">
@@ -136,7 +124,7 @@
 
               <div class="grid grid-cols-1 gap-4 mt-4">
                 <div>
-                  <button :disabled="submitting" type="submit" id="submit" name="send"
+                  <button :disabled="submitting" type="submit" name="send"
                     class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">Post
                     Now</button>
                 </div>
@@ -165,6 +153,10 @@ const companyStore = useCompanyStore()
 const categoryStore = useCategoryStore()
 const locationStore = useLocationStore()
 const accountStore = useAccountStore()
+
+const onFileChange = (event) => {
+    // handle file change event here
+  }
 
 const { loading, error } = storeToRefs(companyStore)
 const { categories } = storeToRefs(categoryStore)
@@ -225,11 +217,9 @@ const schema = yup.object({
 const onSubmit = async () => {
   submitting.value = true;
   try {
-    const slug = name.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     const formData = createFormData();
     await companyStore.createCompany(formData);
     successMessage.value = 'Company created successfully'
-    // router push to home page
     router.push('/accounts')
     resetFormFields();
 

@@ -68,7 +68,7 @@ export const useCompanyStore = defineStore('company', {
         this.loading = false;
       }
     },
-    async createCompany(data) {
+    async createCompany(formData) {
       try {
         const accountStore = useAccountStore();
         const token = accountStore.token;
@@ -78,7 +78,7 @@ export const useCompanyStore = defineStore('company', {
         const response = await fetch(`${BASE_URL}/companies/`, {
           method: 'POST',
           headers: headers,
-          body: data,
+          body: formData,
         });
         if (!response.ok) {
           throw new Error('Server responded with ' + response.status);

@@ -1,110 +1,92 @@
 <template>
-  <nav id="topnav" class="defaultscroll is-sticky">
-    <div class="container grid grid-cols-9 gap-4">
-      <!-- Logo container -->
-      <NuxtLink to="/" class="logo col-span-2">
-        <div class="block sm:hidden">
-          <img src="~/assets/images/logo-icon-40.png" class="h-10 inline-block dark:hidden" alt="" />
-          <img src="~/assets/images/logo-icon-40-white.png" class="h-10 hidden dark:inline-block" alt="" />
-        </div>
-        <div class="sm:block hidden">
-          <span class="inline-block dark:hidden">
-            <img src="~/assets/images/logo-dark.png" class="h-[24px] l-dark" alt="" />
-            <img src="~/assets/images/logo-light.png" class="h-[24px] l-light" alt="" />
-          </span>
-          <img src="~/assets/images/logo-white.png" class="h-[24px] hidden dark:inline-block" alt="" />
-        </div>
-      </NuxtLink>
-      <!-- End Logo container -->
-
-      <!-- Start Mobile Toggle -->
-      <div class="menu-extras">
-        <div class="menu-item">
-          <a class="navbar-toggle" id="isToggle" @click="toggleNavbar">
-            <div class="lines">
-              <span></span>
-              <span></span>
-              <span></span>
+  <div class="bg-transparent lg:bg-white lg:shadow-lg">
+    <nav class="navbar" id="navbar">
+      <div class="container mx-auto px-4 lg:px-0">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <button @click="toggleNavbar" type="button" class="lg:hidden mr-4" aria-controls="navbar-sticky" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <NuxtLink to="/" class="flex items-center">
+              <img src="~/assets/images/logo-dark.png" alt="" class="h-8 lg:h-auto">
+              <img src="~/assets/images/logo-light.png" alt="" class="h-8 lg:h-auto">
+            </NuxtLink>
+          </div>
+          <div class="flex items-center">
+            <div class="relative dropdown">
+              <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <svg class="h-6 w-6 lg:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <img class="h-8 w-8 rounded-full lg:hidden" src="https://plchldr.co/i/200x200?bg=808080&text=USER" alt="Header Avatar">
+                <span class="hidden lg:inline-block"></span>
+              </button>
+              <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20" id="profile/log" aria-labelledby="navNotifications">
+                <li v-for="item in authNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+                  <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
+                  <button v-else @click="item.action" class="">{{ item.name }}</button>
+                </li>
+              </ul>
             </div>
-          </a>
+            <div :class="{ 'hidden': !isNavbarOpen }" class="hidden lg:flex lg:items-center">
+              <ul class="flex" id="navigation-menu">
+                <li v-for="item in navItems" :key="item.name" class="relative dropdown">
+                  <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="dropdown-item">
+                      <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
+                    </li>
+                    <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="dropdown-item">
+                      <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <ul v-if="isLoggedIn" class="flex" id="navigation-menu">
+                <li v-for="item in formNavigation" :key="item.name" class="relative dropdown">
+                  <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+        <!-- Mobile Menu -->
+        <div :class="{ 'block': isNavbarOpen, 'hidden': !isNavbarOpen }" class="lg:hidden">
+          <ul class="flex flex-col" id="navigation-menu">
+            <li v-for="item in navItems" :key="item.name" class="relative dropdown">
+              <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
+              </button>
+              <ul class="dropdown-menu">
+                <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="dropdown-item">
+                  <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
+                </li>
+                <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="dropdown-item">
+                  <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
+                </li>
+              </ul>
+            </li>
+            <li v-if="isLoggedIn" v-for="item in formNavigation" :key="item.name" class="relative dropdown">
+              <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <!-- End Mobile Menu -->
       </div>
-      <!-- End Mobile Toggle -->
-
-      <!-- Login button Start -->
-      <ul class="buy-button list-none mb-0 col-span-2">
-        <li class=inline-block mb-0>
-          <div class="relative top-[3px]">
-            <Icon name="uil:search" class="text-lg absolute top-[3px] end-3" />
-            <input type="text"
-              class="form-input h-9 pe-10 rounded-3xl sm:w-44 w-36 border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900"
-              name="s" id="searchItem" placeholder="Search..." />
-          </div>
-        </li>
-        <li class="dropdown inline-block relative ps-1">
-          <button data-dropdown-toggle="dropdown" class="dropdown-toggle items-center" type="button">
-            <span
-              class="btn btn-icon rounded-full bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">
-              <img src="~/assets/images/team/01.jpg" class="rounded-full" alt="" />
-            </span>
-          </button>
-          <!-- Dropdown menu -->
-          <div
-            class="dropdown-menu absolute end-0 m-0 mt-4 z-10 w-44 rounded-md overflow-hidden bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 hidden"
-            onclick="event.stopPropagation();">
-            <ul class="py-2 text-start">
-              <li>
-                <NuxtLink to="/accounts/profile"
-                  class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-emerald-600 dark:hover:text-white">
-                  <Icon name="feather:user" class="size-4 me-2" />
-                  Profile
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/accounts/settings"
-                  class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-emerald-600 dark:hover:text-white">
-                  <Icon name="feather:settings" class="size-4 me-2" />
-                  Settings
-                </NuxtLink>
-              </li>
-              <li class="border-t border-gray-100 dark:border-gray-800 my-2"></li>
-              <li>
-                <a @click="logout"
-                  class="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-emerald-600 dark:hover:text-white">
-                  <Icon name="feather:log-out" class="size-4 me-2" />
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-      <!-- Login button End -->
-
-      <div id="navigation col-span-5">
-        <!-- Navigation Menu -->
-        <ul class="navigation-menu justify-end nav-light">
-          <li class="has-submenu parent-menu-item">
-            <NuxtLink to="/" class="sub-menu-item">Home</NuxtLink>
-          </li>
-          <li class="has-submenu parent-menu-item">
-            <NuxtLink to="/jobs" class="sub-menu-item">Jobs</NuxtLink>
-          </li>
-          <li class="has-submenu parent-menu-item">
-            <NuxtLink to="/companies" class="sub-menu-item">Companies</NuxtLink>
-            <ul>
-
-            </ul>
-          </li>
-          <li class="has-submenu parent-menu-item">
-            <NuxtLink to="/categories" class="sub-menu-item">Categories</NuxtLink>
-          </li>
-        </ul>
-        <!-- end navigation menu -->
-      </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 </template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
@@ -168,6 +150,7 @@ const loginNavigation = [
   { name: 'Login', link: '/accounts/login', current: route.name.includes('login') },
   { name: 'Register', link: '/accounts/signup', current: route.name.includes('register') },
 ]
+
 
 onMounted(async () => {
   try {
