@@ -124,11 +124,4 @@ const breadcrumbs = [
 
 const pageTitle = 'Add Country';
 
-onMounted(() => {
-  if (!accountStore.isLoggedIn) {
-    router.push('/login')
-  }
-  getUser()
-})
-
 </script>
