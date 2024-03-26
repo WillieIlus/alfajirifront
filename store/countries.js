@@ -38,7 +38,7 @@ export const useCountriesStore = defineStore('countries', {
           throw new Error('Server responded with ' + response.status);
         }
         const responseData = await response.json();
-        console.log('Server imerespond na', responseData);
+        console.log('Server responded with', responseData);
       } catch (error) {
         console.error('Error submitting form:', error);
       }

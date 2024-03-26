@@ -51,60 +51,67 @@
                 <div class="col-span-12 text-start">
                   <label class="font-semibold" for="RegisterName">Company Name:</label>
                   <Field v-model="name" type="text" name="name"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Web Developer" />
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Alfajiri Jobs" />
                   <ErrorMessage name="name" class="text-red-500" />
                 </div>
                 <div class="col-span-12 text-start">
                   <label for="comments" class="font-semibold">Company Description:</label>
-                  <Field as="textarea" name="description" id="description"
+                  <Field as="textarea" v-model="description" name="description" id="description"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea"
                     placeholder="Write Company Description :"></Field>
                   <ErrorMessage name="description" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Email:</label>
-                  <input v-model="email" type="email" name="email"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Email">
+                  <Field v-model="email" type="email" name="email"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Email" />
                   <ErrorMessage name="email" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Phone:</label>
-                  <input v-model="phone" type="text" name="phone"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Phone">
+                  <Field v-model="phone" type="text" name="phone"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Phone" />
                   <ErrorMessage name="phone" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Address:</label>
-                  <input v-model="address" type="text" name="address"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Address">
+                  <Field v-model="address" type="text" name="address"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Address" />
                   <ErrorMessage name="address" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Website:</label>
-                  <input v-model="website" type="text" name="website"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Website">
+                  <Field v-model="website" type="text" name="website"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Website" />
                   <ErrorMessage name="company" class="text-red-500" />
+                </div>
+                <div class="grid grid-cols-1">
+                  <h5 class="text-lg font-semibold">Location & Category:</h5>
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Location:</label>
-                  <select v-model="location" name="location"
+                  <Field as="select" v-model="location" name="location"
                     class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
                     <option value="">Select Location</option>
                     <option v-for="location in locations" :key="location.id" :value="location.id">{{ location.name }}
                     </option>
-                  </select>
+                  </Field>
                   <ErrorMessage name="location" class="text-red-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Category:</label>
-                  <select v-model="category" name="category"
+                  <Field as="select" v-model="category" name="category"
                     class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
                     <option value="">Select Category</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
                     </option>
-                  </select>
+                  </Field>
                   <ErrorMessage name="category" class="text-red-500" />
                 </div>
+                <div class="grid grid-cols-1">
+                  <h5 class="text-lg font-semibold">Upload Logo & Cover:</h5>
+                </div>
+
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Logo:</label>
                   <input type="file" @change="onFileChange"
@@ -122,11 +129,16 @@
                 <div v-if="errorMessage" class="text-red-500">{{ errorMessage }}</div>
               </div>
 
-              <div class="grid grid-cols-1 gap-4 mt-4">
+              <div class="grid grid-cols-1 gap-4 mt-4 gap-x-3 ">
                 <div>
-                  <button :disabled="submitting" type="submit" name="send"
-                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">Post
-                    Now</button>
+                  <button type="submit"
+                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">
+                    <span v-if="submitting">Submitting ... </span>
+                    <span v-else>Post Now </span>
+                  </button>
+                  <button @click="router.push('/locations')"
+                    class="btn rounded-md bg-gray-200 hover:bg-gray-300 border-gray-200 hover:border-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100">Cancel</button>
+
                 </div>
               </div>
             </Form><!--end form-->
@@ -181,7 +193,6 @@ const getUser = async () => {
   await accountStore.getUser()
 }
 const name = ref('')
-const slug = ref('')
 const description = ref('')
 const phone = ref('')
 const website = ref('')
@@ -206,67 +217,42 @@ const schema = yup.object({
   website: yup.string(),
   email: yup.string().required(),
   address: yup.string(),
-  category: yup.string().required(),
-  location: yup.string().required(),
+  category: yup.string(),//.required(),
+  location: yup.string(),//.required(),
   logo: yup.mixed(),
   cover: yup.mixed()
 })
 
-
-
-const onSubmit = async () => {
-  submitting.value = true;
+const onSubmit = async (values) => {
+  submitting.value = true
+  console.log('values:', values.name, values.description, values.phone, values.website, values.email, values.address, values.category, values.location, logo.value, cover.value)
   try {
-    const formData = createFormData();
-    await companyStore.createCompany(formData);
+    const data = new FormData()
+    data.append('name', values.name)
+    data.append('description', values.description)
+    data.append('phone', values.phone)
+    data.append('website', values.website)
+    data.append('email', values.email)
+    data.append('address', values.address)
+    data.append('category', values.category)
+    data.append('location', values.location)
+    data.append('logo', logo.value)
+    data.append('cover', cover.value)
+    console.log('data:', data)
+    await companyStore.createCompany(data);
+    console.log('Company created successfully');
     successMessage.value = 'Company created successfully'
-    router.push('/accounts')
-    resetFormFields();
-
+    setTimeout(() => {
+      successMessage.value = ''
+      router.push('/companies')
+    }, 5000)
   } catch (error) {
-    console.error('Error submitting form:', error);
-    errorMessage.value = error.message;
+    console.log(error)
+    errorMessage.value = 'An error occurred. Please try again.'
   } finally {
-    submitting.value = false;
+    submitting.value = false
   }
-};
-
-const createFormData = () => {
-  const formData = new FormData();
-
-  formData.append('name', name.value);
-  formData.append('description', description.value);
-  formData.append('phone', phone.value);
-  formData.append('website', website.value);
-  formData.append('email', email.value);
-  formData.append('address', address.value);
-  formData.append('category', category.value);
-  formData.append('location', location.value);
-
-  if (cover.value) {
-    formData.append('cover', cover.value);
-  }
-
-  if (logo.value) {
-    formData.append('logo', logo.value);
-  }
-
-  return formData;
-};
-
-const resetFormFields = () => {
-  name.value = '';
-  description.value = '';
-  phone.value = '';
-  website.value = '';
-  email.value = '';
-  address.value = '';
-  category.value = '';
-  location.value = '';
-  logo.value = null;
-  cover.value = null;
-};
-
+}
 
 const breadcrumbs = [
   { label: 'Home', to: '/' },

@@ -142,8 +142,8 @@ const userNavigation = [
 ]
 
 const formNavigation = [
-  { name: 'Add Job', link: '/jobs/form', current: route.name.includes('add-job') },
-  { name: 'Add Company', link: '/companies/form', current: route.name.includes('add-company') }
+  { name: 'Add Job', link: '/jobs/add-job', current: route.name.includes('add-job') },
+  { name: 'Add Company', link: '/companies/add-company', current: route.name.includes('add-company') }
 ]
 
 const loginNavigation = [

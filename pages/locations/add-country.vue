@@ -58,19 +58,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as yup from 'yup';
-
-import { useCountriesStore } from '~/store/countries';
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import * as yup from 'yup'
+
+import { useCountriesStore } from '~/store/countries'
+import { useAccountStore } from '~/store/accounts'
+
+const router = useRouter()
+
+const countriesStore = useCountriesStore()
+const accountStore = useAccountStore()
+
+const { user, isLoggedIn } = accountStore
 
 const successMessage = ref('')
 const errorMessage = ref('')
-
-const countriesStore = useCountriesStore()
-const router = useRouter()
-
 const name = ref('')
 const code = ref('')
 const flag = ref(null)
@@ -87,10 +92,6 @@ const schema = yup.object({
 })
 
 const submitting = ref(false)
-
-console.log('flag:', flag.value)
-console.log('name:', name.value)
-console.log('code:', code.value)
 
 const onSubmit = async (values) => {
   submitting.value = true
@@ -123,5 +124,11 @@ const breadcrumbs = [
 ];
 
 const pageTitle = 'Add Country';
+
+onMounted(() => {
+  if (!isLoggedIn) {
+    router.push('/login')
+  }
+})
 
 </script>
