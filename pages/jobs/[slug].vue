@@ -64,6 +64,19 @@
                     <Icon name="uil:map-pin" class="text-[18px] text-emerald-600 me-1" />
                     {{ job.location.name }}
                   </span>
+                  <span class="text-slate-400 font-medium me-2 inline-block">
+                    <Icon name="uil:eye" class="text-[18px] text-emerald-600 me-1"/>
+                    {{ job.view_count }}
+                  </span>
+                  <span class="text-slate-400 font-medium me-2 inline-block">
+                    <Icon name="uil:mouse-alt" class="text-[18px] text-emerald-600 me-1"/>
+                    {{ job.click_count }}
+                  </span>
+                  <span class="text-slate-400 font-medium me-2 inline-block">
+                    <Icon name="uil:heart" class="text-[18px] text-emerald-600 me-1"/>
+                    {{ job.bookmarks }}
+                  </span>
+
                 </div>
               </div>
             </div>

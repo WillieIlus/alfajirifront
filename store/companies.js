@@ -74,7 +74,6 @@ export const useCompanyStore = defineStore('company', {
         const token = accountStore.token;
         const headers = {
           'Authorization': 'Bearer ' + token,
-          // 'Content-Type': 'multipart/form-data',
         };
         console.log('Sending data to server: ', data);
         const response = await fetch(`${BASE_URL}/companies/`, {

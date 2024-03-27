@@ -52,42 +52,42 @@
                   <label class="font-semibold" for="RegisterName">Company Name:</label>
                   <Field v-model="name" type="text" name="name"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Alfajiri Jobs" />
-                  <ErrorMessage name="name" class="text-red-500" />
+                  <ErrorMessage name="name" class="text-rose-500" />
                 </div>
                 <div class="col-span-12 text-start">
                   <label for="comments" class="font-semibold">Company Description:</label>
                   <Field as="textarea" v-model="description" name="description" id="description"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea"
                     placeholder="Write Company Description :"></Field>
-                  <ErrorMessage name="description" class="text-red-500" />
+                  <ErrorMessage name="description" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Email:</label>
                   <Field v-model="email" type="email" name="email"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Email" />
-                  <ErrorMessage name="email" class="text-red-500" />
+                  <ErrorMessage name="email" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Phone:</label>
                   <Field v-model="phone" type="text" name="phone"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Phone" />
-                  <ErrorMessage name="phone" class="text-red-500" />
+                  <ErrorMessage name="phone" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Address:</label>
                   <Field v-model="address" type="text" name="address"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Address" />
-                  <ErrorMessage name="address" class="text-red-500" />
+                  <ErrorMessage name="address" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Website:</label>
                   <Field v-model="website" type="text" name="website"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Website" />
-                  <ErrorMessage name="company" class="text-red-500" />
+                  <ErrorMessage name="company" class="text-rose-500" />
                 </div>
-                <div class="grid grid-cols-1">
+                <!-- <div class="grid grid-cols-12">
                   <h5 class="text-lg font-semibold">Location & Category:</h5>
-                </div>
+                </div> -->
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Location:</label>
                   <Field as="select" v-model="location" name="location"
@@ -96,7 +96,7 @@
                     <option v-for="location in locations" :key="location.id" :value="location.id">{{ location.name }}
                     </option>
                   </Field>
-                  <ErrorMessage name="location" class="text-red-500" />
+                  <ErrorMessage name="location" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Category:</label>
@@ -106,27 +106,27 @@
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
                     </option>
                   </Field>
-                  <ErrorMessage name="category" class="text-red-500" />
+                  <ErrorMessage name="category" class="text-rose-500" />
                 </div>
-                <div class="grid grid-cols-1">
+                <!-- <div class="grid grid-cols-12">
                   <h5 class="text-lg font-semibold">Upload Logo & Cover:</h5>
-                </div>
+                </div> -->
 
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Logo:</label>
-                  <input type="file" @change="onFileChange"
+                  <input type="file" @change="onLogoChange"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Logo ">
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Cover:</label>
-                  <input type="file" @change="onFileChange"
+                  <input type="file" @change="onCoverChange"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Cover ">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 gap-4 mt-4">
                 <div v-if="successMessage" class="text-green-500">{{ successMessage }}</div>
-                <div v-if="errorMessage" class="text-red-500">{{ errorMessage }}</div>
+                <div v-if="errorMessage" class="text-rose-500">{{ errorMessage }}</div>
               </div>
 
               <div class="grid grid-cols-1 gap-4 mt-4 gap-x-3 ">
@@ -165,10 +165,6 @@ const companyStore = useCompanyStore()
 const categoryStore = useCategoryStore()
 const locationStore = useLocationStore()
 const accountStore = useAccountStore()
-
-const onFileChange = (event) => {
-    // handle file change event here
-  }
 
 const { loading, error } = storeToRefs(companyStore)
 const { categories } = storeToRefs(categoryStore)

@@ -182,43 +182,61 @@ const schema = yup.object({
 })
 
 const submitting = ref(false)
-const onSubmit = async () => {
+
+const onSubmit = async (values) => {
   submitting.value = true
-  const data = new FormData()
-  data.append('title', title.value)
-  data.append('company', company.value)
-  data.append('location', location.value)
-  data.append('category', category.value)
-  data.append('description', description.value)
-  data.append('salary', salary.value)
-  console.log('the data is', data.values)
-  if (image.value) {
-    data.append('image', image.value)
-  }
+  console.log('values:', values.title, values.company, values.location, values.category, values.description, values.salary, image.value)  
   try {
-    const response = await jobStore.createJob(data)
-    console.log('response', response)
-    if (!response) {
-      throw new Error('Server responded with ' + response)
+    const data = new FormData()
+    data.append('title', title.value)
+    data.append('company', company.value)
+    data.append('location', location.value)
+    data.append('category', category.value)
+    data.append('description', description.value)
+    data.append('salary', salary.value)
+    console.log('the data is', data.values)
+    if (image.value) {
+      data.append('image', image.value)
     }
+    await jobStore.createJob(data)
+    console.log('Job created successfully')
     successMessage.value = 'Job created successfully'
-    createFormData()
-    console.log('formdata ', data)
     setTimeout(() => {
       successMessage.value = ''
-    }, 3000)
-    // redirect to the jobs page
-    router.push('/accounts')
+      router.push('/jobs')
+    }, 5000)
   } catch (error) {
-    console.error('Error submitting form:', error)
-    errorMessage.value = 'Failed to create job. Please try again.'
-    setTimeout(() => {
-      errorMessage.value = ''
-    }, 3000)
+    console.log(error)
+    errorMessage.value = 'An error occurred. Please try again.'
+  } finally {
+    submitting.value = false
   }
-  submitting.value = false
-
 }
+
+//   try {
+//     const response = await jobStore.createJob(data)
+//     console.log('response', response)
+//     if (!response) {
+//       throw new Error('Server responded with ' + response)
+//     }
+//     successMessage.value = 'Job created successfully'
+//     createFormData()
+//     console.log('formdata ', data)
+//     setTimeout(() => {
+//       successMessage.value = ''
+//     }, 3000)
+//     // redirect to the jobs page
+//     router.push('/accounts')
+//   } catch (error) {
+//     console.error('Error submitting form:', error)
+//     errorMessage.value = 'Failed to create job. Please try again.'
+//     setTimeout(() => {
+//       errorMessage.value = ''
+//     }, 3000)
+//   }
+//   submitting.value = false
+
+// }
 
 const createFormData = () => {
   title.value = ''
