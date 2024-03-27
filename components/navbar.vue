@@ -1,10 +1,10 @@
 <template>
   <div class="bg-transparent lg:bg-white lg:shadow-lg">
     <nav class="navbar" id="navbar">
-      <div class="container mx-auto px-4 lg:px-0">
+      <div class="container mx-auto px-16 py-8">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <button @click="toggleNavbar" type="button" class="lg:hidden mr-4" aria-controls="navbar-sticky" aria-expanded="false">
+            <button @click="toggleNavbar" type="button" class="md:hidden mr-4" aria-controls="navbar-sticky" aria-expanded="false">
               <span class="sr-only">Open main menu</span>
               <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -12,16 +12,16 @@
             </button>
             <NuxtLink to="/" class="flex items-center">
               <img src="~/assets/images/logo-dark.png" alt="" class="h-8 lg:h-auto">
-              <img src="~/assets/images/logo-light.png" alt="" class="h-8 lg:h-auto">
+              <!-- <img src="~/assets/images/logo-light.png" alt="" class="h-8 lg:h-auto"> -->
             </NuxtLink>
           </div>
           <div class="flex items-center">
             <div class="relative dropdown">
               <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <svg class="h-6 w-6 lg:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <svg class="h-6 w-6 md:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                 </svg>
-                <img class="h-8 w-8 rounded-full lg:hidden" src="https://plchldr.co/i/200x200?bg=808080&text=USER" alt="Header Avatar">
+                <img class="h-8 w-8 rounded-full md:hidden" src="https://plchldr.co/i/200x200?bg=808080&text=USER" alt="Header Avatar">
                 <span class="hidden lg:inline-block"></span>
               </button>
               <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20" id="profile/log" aria-labelledby="navNotifications">
@@ -58,7 +58,7 @@
           </div>
         </div>
         <!-- Mobile Menu -->
-        <div :class="{ 'block': isNavbarOpen, 'hidden': !isNavbarOpen }" class="lg:hidden">
+        <div :class="{ 'block': isNavbarOpen, 'hidden': !isNavbarOpen }" class="md:hidden">
           <ul class="flex flex-col" id="navigation-menu">
             <li v-for="item in navItems" :key="item.name" class="relative dropdown">
               <button class="dropdown-toggle" data-bs-toggle="dropdown">
