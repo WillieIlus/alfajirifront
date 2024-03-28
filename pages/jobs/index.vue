@@ -117,8 +117,10 @@
                                     <div class="flex items-center">
                                         <div
                                             class="size-14 min-w-[56px] flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                                            <!-- if no logo  display none -->
+                                            <
                                             
-                                            <img :src="job.company.logo" class="size-8" alt="">
+                                            <!-- <img :src="job.company.logo" class="size-8" alt=""> -->
                                         </div>
 
                                         <div class="ms-3">

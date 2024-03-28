@@ -30,92 +30,89 @@
     </div>
   </div>
   <!-- End Hero -->
-
   <!-- Start -->
   <section class="relative bg-slate-50 dark:bg-slate-800 lg:py-24 py-16">
     <div class="container">
       <div class="lg:flex justify-center">
         <div class="lg:w-2/3">
-          <div class="p-6 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-            <Form @submit="onSubmit" :validation-schema="schema" class="text-start">
-              <div class="grid grid-cols-1">
+          <div class="p-6 bg-white dark:bg-slate-900 shadow  dark:shadow-gray-700 rounded-md">
+            <Form @submit="onSubmit" class="text-start">
+              <div class="grid grid-cols-1 gap-6">
                 <h5 class="text-lg font-semibold">Job Details:</h5>
               </div>
-
               <div class="grid grid-cols-12 gap-4 mt-4">
                 <div class="col-span-12 text-start">
-                  <label class="font-semibold" for="RegisterName">Job Title:</label>
-                  <Field v-model="title" type="text" name="title"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Web Developer" />
-                  <ErrorMessage name="title" class="text-red-500" />
+                  <label class="font-semibold" for="title">Job Title</label>
+                  <Field v-model="title" type="text" name="title" id="title" placeholder="Enter job title"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" />
+                  <ErrorMessage name="title" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="col-span-12 text-start">
-                  <label for="comments" class="font-semibold">Job Description:</label>
-                  <Field as="textarea" name="description" id="description"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea"
-                    placeholder="Write Job Description :"></Field>
-                  <ErrorMessage name="description" class="text-red-500" />
+                  <label class="font-semibold" for="description">Job Description</label>
+                  <Field as="textarea" v-model="description" name="description" id="description"
+                    placeholder="Enter job description"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea" />
+                  <ErrorMessage name="description" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Company:</label>
-                  <select v-model="company" name="company"
-                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
+                  <label class="font-semibold" for="company">Company</label>
+                  <Field as="select" v-model="company" name="company" id="company"
+                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
                     <option value="">Select Company</option>
-                    <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.name }}</option>
-                  </select>
-                  <ErrorMessage name="company" class="text-red-500" />
+                    <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.name }}
+                    </option>
+                  </Field>
+                  <ErrorMessage name="company" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Location:</label>
-                  <select v-model="location" name="location"
-                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
+                  <label class="font-semibold" for="location">Location</label>
+                  <Field as="select" v-model="location" name="location" id="location"
+                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
                     <option value="">Select Location</option>
                     <option v-for="location in locations" :key="location.id" :value="location.id">{{ location.name }}
                     </option>
-                  </select>
-                  <ErrorMessage name="location" class="text-red-500" />
+                  </Field>
+                  <ErrorMessage name="location" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Category:</label>
-                  <select v-model="category" name="category"
-                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
+                  <label class="font-semibold" for="category">Category</label>
+                  <Field as="select" v-model="category" name="category" id="category"
+                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
                     <option value="">Select Category</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
                     </option>
-                  </select>
-                  <ErrorMessage name="category" class="text-red-500" />
+                  </Field>
+                  <ErrorMessage name="category" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold">Salary:</label>
-                  <input v-model="salary" type="number" name="salary"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Salary">
-                  <ErrorMessage name="salary" class="text-red-500" />
+                  <label class="font-semibold" for="salary">Salary</label>
+                  <Field v-model="salary" type="number" name="salary" id="salary" placeholder="Enter salary"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" />
+                  <ErrorMessage name="salary" class="text-red-500 text-xs italic" />
                 </div>
-                <div class="col-span-12 text-start">
-                  <label class="font-semibold">Upload Image:</label>
-                  <input type="file" @change="onFileChange"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Image">
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 gap-4 mt-4">
-                <div v-if="successMessage" class="text-green-500">{{ successMessage }}</div>
-                <div v-if="errorMessage" class="text-red-500">{{ errorMessage }}</div>
-              </div>
-
-              <div class="grid grid-cols-1 gap-4 mt-4">
-                <div>
-                  <button :disabled="submitting" type="submit" id="submit" name="send"
-                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">Post
-                    Now</button>
+                <div class="md:col-span-6 col-span-12 text-start">
+                  <label class="font-semibold" for="image">Image</label>
+                  <input type="file" name="image" id="image" @change="onFileChange"
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1" />
                 </div>
               </div>
-            </Form><!--end form-->
+              <div class="flex justify-start mt-6">
+                <button type="submit"
+                  class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded-md">
+                  <span v-if="submitting" class="spinner mr-2"></span>
+                  <span v-else>Submit</span>
+                </button>
+              </div>
+              <div class="mt-4">
+                <p v-if="successMessage" class="text-green-500">{{ successMessage }}</p>
+                <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
+              </div>
+            </Form>
           </div>
         </div>
-      </div><!--end flex-->
-    </div><!--end container-->
-  </section><!--end section-->
+      </div>
+    </div> <!--End Container-->
+  </section>
   <!-- End -->
 </template>
 <script setup>
@@ -184,59 +181,37 @@ const schema = yup.object({
 const submitting = ref(false)
 
 const onSubmit = async (values) => {
-  submitting.value = true
-  console.log('values:', values.title, values.company, values.location, values.category, values.description, values.salary, image.value)  
+  submitting.value = true;
+  console.log('Submitting form with values:', values); // Log all form values before submission
+  // console individual values
+  console.log('Title:', values.title);
+  console.log('Company:', values.company);
+  console.log('Location:', values.location);
+  console.log('Category:', values.category);
+  console.log('Description:', values.description);
+  console.log('Salary:', values.salary);
+  console.log('Image:', image.value);
   try {
-    const data = new FormData()
-    data.append('title', title.value)
-    data.append('company', company.value)
-    data.append('location', location.value)
-    data.append('category', category.value)
-    data.append('description', description.value)
-    data.append('salary', salary.value)
-    console.log('the data is', data.values)
-    if (image.value) {
-      data.append('image', image.value)
-    }
-    await jobStore.createJob(data)
-    console.log('Job created successfully')
-    successMessage.value = 'Job created successfully'
-    setTimeout(() => {
-      successMessage.value = ''
-      router.push('/jobs')
-    }, 5000)
+    const data = new FormData();
+    data.append('title', values.title);
+    data.append('company', values.company);
+    data.append('location', values.location);
+    data.append('category', values.category);
+    data.append('description', values.description);
+    data.append('salary', values.salary);
+    data.append('image', image.value);
+    console.log('FormData:', data); // Log the FormData object being submitted
+    await jobStore.createJob(data);
+    successMessage.value = 'Job created successfully';
+    createFormData();
+    submitting.value = false;
   } catch (error) {
-    console.log(error)
-    errorMessage.value = 'An error occurred. Please try again.'
-  } finally {
-    submitting.value = false
+    errorMessage.value = 'Failed to create job';
+    submitting.value = false;
   }
-}
+};
 
-//   try {
-//     const response = await jobStore.createJob(data)
-//     console.log('response', response)
-//     if (!response) {
-//       throw new Error('Server responded with ' + response)
-//     }
-//     successMessage.value = 'Job created successfully'
-//     createFormData()
-//     console.log('formdata ', data)
-//     setTimeout(() => {
-//       successMessage.value = ''
-//     }, 3000)
-//     // redirect to the jobs page
-//     router.push('/accounts')
-//   } catch (error) {
-//     console.error('Error submitting form:', error)
-//     errorMessage.value = 'Failed to create job. Please try again.'
-//     setTimeout(() => {
-//       errorMessage.value = ''
-//     }, 3000)
-//   }
-//   submitting.value = false
 
-// }
 
 const createFormData = () => {
   title.value = ''
