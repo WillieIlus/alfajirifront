@@ -118,16 +118,20 @@
                                         <div
                                             class="size-14 min-w-[56px] flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
                                             <!-- if no logo  display none -->
-                                            <
-                                            
+                                            <div v-if="job.company.logo" class="size-8">
+                                                <img :src="job.company.logo" class="size-8" alt="">
+                                            </div>
+                                            <div v-else class="size-8">
+                                                <img src="https://plchldr.co/i/200x200?bg=808080&text=LOGO"
+                                                    class="size-8" alt="">
+                                            </div>
                                             <!-- <img :src="job.company.logo" class="size-8" alt=""> -->
                                         </div>
 
                                         <div class="ms-3">
                                             <NuxtLink :to="'/jobs/' + job.slug"
                                                 class="inline-block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500 me-1">
-                                                {{
-                job.title }}</NuxtLink>
+                                                {{ job.title }}</NuxtLink>
                                             <span class="inline-block text-sm text-slate-400">{{ job.timesince }}
                                                 ago</span>
                                             <div>

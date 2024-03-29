@@ -6,13 +6,26 @@
           <div class="flex items-center">
             <button @click="toggleNavbar" type="button" class="md:hidden mr-4" aria-controls="navbar-sticky" aria-expanded="false">
               <span class="sr-only">Open main menu</span>
-              <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <!-- <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+              </svg> --> 
+              <!-- instead of this svg lets putuil: icon for horizontal lines and vertical when the menu is open and horizontal when closed -->
+              <span v-if="isNavbarOpen" class="h-6 w-6 block bg-black">
+                <Icon name="uil:bars" class="text-black" size="1.5em" />
+              </span>
+              <span v-else class="h-6 w-6 block bg-black">
+                <Icon name="uil:bars" class="text-black" size="1.5em" />
+              </span>
+              <svg v-if="isNavbarOpen" class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M6 18a2 2 0 01-2-2V4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6zm0 0h8V4H6v14z" clip-rule="evenodd"></path>
+              </svg>
+              <svg v-else class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
               </svg>
+
             </button>
             <NuxtLink to="/" class="flex items-center">
               <img src="~/assets/images/logo-dark.png" alt="" class="h-8 lg:h-auto">
-              <!-- <img src="~/assets/images/logo-light.png" alt="" class="h-8 lg:h-auto"> -->
             </NuxtLink>
           </div>
           <div class="flex items-center">
@@ -38,10 +51,10 @@
                     <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
                   </button>
                   <ul class="dropdown-menu">
-                    <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="dropdown-item">
+                    <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="make this button green ">
                       <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
                     </li>
-                    <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="dropdown-item">
+                    <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="">
                       <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
                     </li>
                   </ul>
@@ -54,6 +67,23 @@
                   </button>
                 </li>
               </ul>
+              <!-- push a div to the right using Tailwind CSS,  -->
+              <div class="flex mr-auto justify-end">
+                <ul v-if="isLoggedIn" class="flex ml-auto" id="navigation-menu">
+                  <li v-for="item in userNavigation" :key="item.name" class="relative dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                      <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
+                    </button>
+                  </li>
+                </ul>
+                <ul v-if="!isLoggedIn" class="flex ml-auto" id="navigation-menu">
+                  <li v-for="item in loginNavigation" :key="item.name" class="relative dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                      <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -77,6 +107,14 @@
               <button class="dropdown-toggle" data-bs-toggle="dropdown">
                 <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
               </button>
+            </li>
+            <li v-if="isLoggedIn" v-for="item in userNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+              <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
+              <button v-else @click="item.action" class="">{{ item.name }}</button>
+            </li>
+            <li v-if="!isLoggedIn" v-for="item in loginNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+              <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
+              <button v-else @click="item.action" class="">{{ item.name }}</button>
             </li>
           </ul>
         </div>
@@ -147,8 +185,8 @@ const formNavigation = [
 ]
 
 const loginNavigation = [
-  { name: 'Login', link: '/accounts/login', current: route.name.includes('login') },
-  { name: 'Register', link: '/accounts/signup', current: route.name.includes('register') },
+  { name: 'Login', link: '/login', current: route.name.includes('login') },
+  { name: 'Register', link: '/signup', current: route.name.includes('register') },
 ]
 
 
