@@ -4,60 +4,25 @@
       <div class="container mx-auto px-16 py-8">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <button @click="toggleNavbar" type="button" class="md:hidden mr-4" aria-controls="navbar-sticky" aria-expanded="false">
-              <span class="sr-only">Open main menu</span>
-              <!-- <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-              </svg> --> 
-              <!-- instead of this svg lets putuil: icon for horizontal lines and vertical when the menu is open and horizontal when closed -->
+            <button @click="toggleNavbar" type="button" class="md:hidden mr-4" aria-expanded="false">
               <span v-if="isNavbarOpen" class="h-6 w-6 block bg-black">
                 <Icon name="uil:bars" class="text-black" size="1.5em" />
               </span>
               <span v-else class="h-6 w-6 block bg-black">
-                <Icon name="uil:bars" class="text-black" size="1.5em" />
+                <Icon name="uil:cancel" class="text-black" size="1.5em" />
               </span>
-              <svg v-if="isNavbarOpen" class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M6 18a2 2 0 01-2-2V4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6zm0 0h8V4H6v14z" clip-rule="evenodd"></path>
-              </svg>
-              <svg v-else class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-              </svg>
-
             </button>
             <NuxtLink to="/" class="flex items-center">
               <img src="~/assets/images/logo-dark.png" alt="" class="h-8 lg:h-auto">
             </NuxtLink>
           </div>
           <div class="flex items-center">
-            <div class="relative dropdown">
-              <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <svg class="h-6 w-6 md:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                <img class="h-8 w-8 rounded-full md:hidden" src="https://plchldr.co/i/200x200?bg=808080&text=USER" alt="Header Avatar">
-                <span class="hidden lg:inline-block"></span>
-              </button>
-              <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20" id="profile/log" aria-labelledby="navNotifications">
-                <li v-for="item in authNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
-                  <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
-                  <button v-else @click="item.action" class="">{{ item.name }}</button>
-                </li>
-              </ul>
-            </div>
-            <div :class="{ 'hidden': !isNavbarOpen }" class="hidden lg:flex lg:items-center">
+            <div :class="{ 'hidden': !isNavbarOpen }" class="md:flex md:items-center">
               <ul class="flex" id="navigation-menu">
                 <li v-for="item in navItems" :key="item.name" class="relative dropdown">
                   <button class="dropdown-toggle" data-bs-toggle="dropdown">
                     <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
                   </button>
-                  <ul class="dropdown-menu">
-                    <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="make this button green ">
-                      <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
-                    </li>
-                    <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="">
-                      <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
-                    </li>
-                  </ul>
                 </li>
               </ul>
               <ul v-if="isLoggedIn" class="flex" id="navigation-menu">
@@ -68,51 +33,46 @@
                 </li>
               </ul>
               <!-- push a div to the right using Tailwind CSS,  -->
-              <div class="flex mr-auto justify-end">
-                <ul v-if="isLoggedIn" class="flex ml-auto" id="navigation-menu">
-                  <li v-for="item in userNavigation" :key="item.name" class="relative dropdown">
-                    <button class="dropdown-toggle" data-bs-toggle="dropdown">
-                      <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
-                    </button>
-                  </li>
-                </ul>
-                <ul v-if="!isLoggedIn" class="flex ml-auto" id="navigation-menu">
-                  <li v-for="item in loginNavigation" :key="item.name" class="relative dropdown">
-                    <button class="dropdown-toggle" data-bs-toggle="dropdown">
-                      <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
-                    </button>
-                  </li>
-                </ul>
-              </div>
             </div>
+
+            <div class="relative ">
+              <button type="button" @click="toggleAuthbar" class="block flex items-center px-4 py-5 dropdown-toggle"
+                id="page-header-user-dropdown" aria-haspopup="true" aria-expanded="true">
+                <img class="h-8 w-8 rounded-full" src="https://plchldr.co/i/200x200?bg=808080&text=USER"
+                  alt="Header Avatar">
+                <span class="lg:inline-block"></span>
+              </button>
+              <ul v-if="isAuthbarOpen" class="absolute top-auto z-50 w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20">
+
+                <li v-for="item in authNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+                  <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
+                  <button v-else @click="item.action" class="">{{ item.name }}</button>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
         <!-- Mobile Menu -->
-        <div :class="{ 'block': isNavbarOpen, 'hidden': !isNavbarOpen }" class="md:hidden">
+        <div :class="{ 'block': isNavbarOpen, 'hidden': !isNavbarOpen }"> <!--class="md:hidden"-->
           <ul class="flex flex-col" id="navigation-menu">
             <li v-for="item in navItems" :key="item.name" class="relative dropdown">
               <button class="dropdown-toggle" data-bs-toggle="dropdown">
                 <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
               </button>
-              <ul class="dropdown-menu">
-                <li v-if="item.name === 'Jobs'" v-for="subItem in jobNavigation" :key="subItem.name" class="dropdown-item">
-                  <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
-                </li>
-                <li v-if="item.name === 'Companies'" v-for="subItem in companyNavigation" :key="subItem.name" class="dropdown-item">
-                  <NuxtLink :to="subItem.link">{{ subItem.name }}</NuxtLink>
-                </li>
-              </ul>
             </li>
             <li v-if="isLoggedIn" v-for="item in formNavigation" :key="item.name" class="relative dropdown">
               <button class="dropdown-toggle" data-bs-toggle="dropdown">
                 <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
               </button>
             </li>
-            <li v-if="isLoggedIn" v-for="item in userNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+            <li v-if="isLoggedIn" v-for="item in userNavigation" :key="item.name"
+              class="p-2 dropdown-item group/dropdown">
               <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
               <button v-else @click="item.action" class="">{{ item.name }}</button>
             </li>
-            <li v-if="!isLoggedIn" v-for="item in loginNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+            <li v-if="!isLoggedIn" v-for="item in loginNavigation" :key="item.name"
+              class="p-2 dropdown-item group/dropdown">
               <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
               <button v-else @click="item.action" class="">{{ item.name }}</button>
             </li>
@@ -138,16 +98,21 @@ const { user, isLoggedIn } = storeToRefs(accountStore)
 const route = useRoute()
 const router = useRouter()
 
-const isNavbarOpen = ref(false);
+const isNavbarOpen = ref(false)
+const isAuthbarOpen = ref(false)
 
 const toggleNavbar = () => {
-  isNavbarOpen.value = !isNavbarOpen.value;
+  isNavbarOpen.value = !isNavbarOpen.value
 };
+
+const toggleAuthbar = () => {
+  isAuthbarOpen.value = !isAuthbarOpen.value
+}
 
 const logout = async () => {
   try {
     await accountStore.logout()
-    router.push('/accounts/login')
+    router.push('/login')
   } catch (error) {
     console.error('Failed to logout:', error)
   }
