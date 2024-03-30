@@ -27,7 +27,7 @@
               </ul>
               <ul v-if="isLoggedIn" class="flex" id="navigation-menu">
                 <li v-for="item in formNavigation" :key="item.name" class="relative dropdown">
-                  <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                  <button class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white mx-3" data-bs-toggle="dropdown">
                     <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
                   </button>
                 </li>
@@ -62,7 +62,7 @@
               </button>
             </li>
             <li v-if="isLoggedIn" v-for="item in formNavigation" :key="item.name" class="relative dropdown">
-              <button class="dropdown-toggle" data-bs-toggle="dropdown">
+              <button class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white m-3" data-bs-toggle="dropdown">
                 <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
               </button>
             </li>

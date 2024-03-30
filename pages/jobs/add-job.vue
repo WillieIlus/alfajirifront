@@ -4,9 +4,7 @@
     <div class="absolute inset-0 bg-emerald-900/90"></div>
     <div class="container">
       <div class="grid grid-cols-1 text-center mt-10">
-        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">Job
-          Post</h3>
-
+        <h3 class="md:text-3xl text-2xl md:leading-snug tracking-wide leading-snug font-medium text-white">Job Post</h3>
       </div><!--end grid-->
     </div><!--end container-->
 
@@ -47,6 +45,18 @@
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" />
                   <ErrorMessage name="title" class="text-red-500 text-xs italic" />
                 </div>
+                <!-- add select for company  -->
+                <div class="md:col-span-6 col-span-12 text-start">
+                  <label class="font-semibold">Company:</label>
+                  <Field as="select" v-model="company" name="company"
+                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1"
+                    @change="logSelectedCompany">
+                    <option value="">Select Company</option>
+                    <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.name }}
+                    </option>
+                  </Field>
+                  <ErrorMessage name="company" class="text-rose-500" />
+                </div>
                 <div class="col-span-12 text-start">
                   <label class="font-semibold" for="description">Job Description</label>
                   <Field as="textarea" v-model="description" name="description" id="description"
@@ -55,34 +65,26 @@
                   <ErrorMessage name="description" class="text-red-500 text-xs italic" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold" for="company">Company</label>
-                  <Field as="select" v-model="company" name="company" id="company"
-                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
-                    <option value="">Select Company</option>
-                    <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.name }}
-                    </option>
-                  </Field>
-                  <ErrorMessage name="company" class="text-red-500 text-xs italic" />
-                </div>
-                <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold" for="location">Location</label>
-                  <Field as="select" v-model="location" name="location" id="location"
-                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
+                  <label class="font-semibold">Location:</label>
+                  <Field as="select" v-model="location" name="location"
+                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1"
+                    @change="logSelectedLocation">
                     <option value="">Select Location</option>
                     <option v-for="location in locations" :key="location.id" :value="location.id">{{ location.name }}
                     </option>
                   </Field>
-                  <ErrorMessage name="location" class="text-red-500 text-xs italic" />
+                  <ErrorMessage name="location" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
-                  <label class="font-semibold" for="category">Category</label>
-                  <Field as="select" v-model="category" name="category" id="category"
-                    class="form-select border border-slate-100 dark:border-slate-800 mt-1">
+                  <label class="font-semibold">Category:</label>
+                  <Field as="select" v-model="category" name="category"
+                    class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1"
+                    @change="logSelectedCategory">
                     <option value="">Select Category</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
                     </option>
                   </Field>
-                  <ErrorMessage name="category" class="text-red-500 text-xs italic" />
+                  <ErrorMessage name="category" class="text-rose-500" />
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold" for="salary">Salary</label>
@@ -96,16 +98,21 @@
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" />
                 </div>
               </div>
-              <div class="flex justify-start mt-6">
-                <button type="submit"
-                  class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded-md">
-                  <span v-if="submitting" class="spinner mr-2"></span>
-                  <span v-else>Submit</span>
-                </button>
+              <div class="grid grid-cols-1 gap-4 mt-4">
+                <div v-if="successMessage" class="text-green-500">{{ successMessage }}</div>
+                <div v-if="errorMessage" class="text-rose-500">{{ errorMessage }}</div>
               </div>
-              <div class="mt-4">
-                <p v-if="successMessage" class="text-green-500">{{ successMessage }}</p>
-                <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
+              <div class="grid grid-cols-1 gap-4 mt-4 gap-x-3 ">
+                <div>
+                  <button type="submit"
+                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white mx-3">
+                    <span v-if="submitting">Submitting ... </span>
+                    <span v-else>Post Now </span>
+                  </button>
+                  <button @click="router.push('/locations')"
+                    class="btn rounded-md bg-gray-200 hover:bg-gray-300 border-gray-200 hover:border-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100 mx-3 ">Cancel</button>
+
+                </div>
               </div>
             </Form>
           </div>
@@ -115,148 +122,129 @@
   </section>
   <!-- End -->
 </template>
+
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { Form, Field, ErrorMessage } from 'vee-validate';
+
 import { useRouter } from 'vue-router'
-import { Form, Field, ErrorMessage, useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
 import { storeToRefs } from 'pinia'
+import * as yup from 'yup'
 
 import { useJobStore } from '~/store/jobs'
 import { useCompanyStore } from '~/store/companies'
-import { useCategoryStore } from '~/store/categories'
 import { useLocationStore } from '~/store/locations'
+import { useCategoryStore } from '~/store/categories'
 import { useAccountStore } from '~/store/accounts'
-
-const successMessage = ref('')
-const errorMessage = ref('')
 
 const router = useRouter()
 
-const jobStore = useJobStore()
 const companyStore = useCompanyStore()
-const categoryStore = useCategoryStore()
 const locationStore = useLocationStore()
+const categoryStore = useCategoryStore()
+const jobStore = useJobStore()
 const accountStore = useAccountStore()
 
-const { loading, error } = storeToRefs(jobStore)
-const { categories } = storeToRefs(categoryStore)
-const { locations } = storeToRefs(locationStore)
 const { companies } = storeToRefs(companyStore)
+const { locations } = storeToRefs(locationStore)
+const { categories } = storeToRefs(categoryStore)
 const { user } = storeToRefs(accountStore)
+const { job, jobs, error, laoding } = storeToRefs(jobStore)
 
 const fetchCompanies = async () => {
   await companyStore.fetchCompanies()
 }
-const fetchCategories = async () => {
-  await categoryStore.fetchCategories()
-}
+
 const fetchLocations = async () => {
   await locationStore.fetchLocations()
 }
+
+const fetchCategories = async () => {
+  await categoryStore.fetchCategories()
+}
+
 const getUser = async () => {
   await accountStore.getUser()
 }
+
 const title = ref('')
+const description = ref('')
+const salary = ref('')
+const image = ref('')
 const company = ref('')
 const location = ref('')
 const category = ref('')
-const description = ref('')
-const salary = ref('')
-const image = ref(null)
+const submitting = ref(false)
+const successMessage = ref('')
+const errorMessage = ref('')
 
 const onFileChange = (e) => {
-  image.value = e.target.files[0]
+  const file = e.target.files[0]
+  image.value = file
+}
+
+const logSelectedCompany = (e) => {
+  console.log('Selected company:', e.target.value)
+}
+
+const logSelectedLocation = (e) => {
+  console.log('Selected location:', e.target.value)
+}
+
+const logSelectedCategory = (e) => {
+  console.log('Selected category:', e.target.value)
 }
 
 const schema = yup.object({
   title: yup.string().required(),
-  company: yup.string().required(),
-  location: yup.string().required(),
-  category: yup.string().required(),
   description: yup.string().required(),
   salary: yup.number(),
+  company: yup.string().required(),
+  location: yup.string(),
+  category: yup.string(),
+  image: yup.mixed()
 })
 
-const submitting = ref(false)
-
 const onSubmit = async (values) => {
-  submitting.value = true;
-  console.log('Submitting form with values:', values); // Log all form values before submission
-  // console individual values
-  console.log('Title:', values.title);
-  console.log('Company:', values.company);
-  console.log('Location:', values.location);
-  console.log('Category:', values.category);
-  console.log('Description:', values.description);
-  console.log('Salary:', values.salary);
-  console.log('Image:', image.value);
-  try {
-    const data = new FormData();
-    data.append('title', values.title);
-    data.append('company', values.company);
-    data.append('location', values.location);
-    data.append('category', values.category);
-    data.append('description', values.description);
-    data.append('salary', values.salary);
-    data.append('image', image.value);
-    console.log('FormData:', data); // Log the FormData object being submitted
-    await jobStore.createJob(data);
-    successMessage.value = 'Job created successfully';
-    createFormData();
-    submitting.value = false;
-  } catch (error) {
-    errorMessage.value = 'Failed to create job';
-    submitting.value = false;
+  submitting.value = true
+  const onFileChange = (e) => {
+    const file = e.target.files[0]
+    image.value = file
   }
-};
-
-
-
-const createFormData = () => {
-  title.value = ''
-  user.value = ''
-  company.value = ''
-  location.value = ''
-  category.value = ''
-  description.value = ''
-  salary.value = ''
+  console.log('Submitting form', values)
+  const formData = new FormData()
+  formData.append('title', title.value)
+  formData.append('description', description.value)
+  formData.append('salary', salary.value)
+  formData.append('image', image.value)
+  formData.append('company', company.value)
+  formData.append('location', location.value)
+  formData.append('category', category.value)
+  formData.append('user', user.value.id)
+  try {
+    await jobStore.addJob(formData)
+    successMessage.value = 'Job added successfully'
+    title.value = ''
+    description.value = ''
+    salary.value = ''
+    image.value = ''
+    company.value = ''
+    location.value = ''
+    category.value = ''
+    submitting.value = false
+  } catch (error) {
+    errorMessage.value = 'Failed to add job'
+    submitting.value = false
+  }
 }
-
-const resetFormFields = () => {
-  title.value = ''
-  user.value = ''
-  company.value = ''
-  location.value = ''
-  category.value = ''
-  description.value = ''
-  salary.value = ''
-}
-
-const breadcrumbs = [
-  {
-    label: 'Home',
-    to: '/',
-  },
-  {
-    label: 'Jobs',
-    to: '/jobs',
-  },
-  {
-    label: 'Create Job',
-    to: '/jobs/form',
-  },
-]
-
-const pageTitle = 'Create Job'
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {
     router.push('/login')
   }
   fetchCompanies()
-  fetchCategories()
   fetchLocations()
+  fetchCategories()
   getUser()
 })
 

@@ -132,12 +132,12 @@
               <div class="grid grid-cols-1 gap-4 mt-4 gap-x-3 ">
                 <div>
                   <button type="submit"
-                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white">
+                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white mx-3">
                     <span v-if="submitting">Submitting ... </span>
                     <span v-else>Post Now </span>
                   </button>
                   <button @click="router.push('/locations')"
-                    class="btn rounded-md bg-gray-200 hover:bg-gray-300 border-gray-200 hover:border-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100">Cancel</button>
+                    class="btn rounded-md bg-gray-200 hover:bg-gray-300 border-gray-200 hover:border-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100 mx-3">Cancel</button>
 
                 </div>
               </div>
