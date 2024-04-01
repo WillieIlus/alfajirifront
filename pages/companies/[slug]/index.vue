@@ -289,5 +289,35 @@ onMounted(() => {
   fetchJobsByCompany()
 })
 
+// dynamic seo for company page title and description based on company name and description
+// and also for the company logo and cover image
+// for google, facebook, twitter, and linkedin
+
+useSeoMeta({
+  title: company.value.name,
+  description: company.value.description,
+  image: company.value.logo,
+  imageAlt: company.value.name,
+  twitterCard: 'summary_large_image',
+  twitterSite: '@company',
+  twitterCreator: '@company',
+  ogSiteName: 'Company',
+  ogType: 'website',
+  ogTitle: company.value.name,
+  ogDescription: company.value.description,
+  ogImage: company.value.logo,
+  ogUrl: `https://alfajirijobs.com/companies/${company.value.slug}`,
+  ogLocale: 'en_US',
+  ogImageWidth: '1200',
+  ogImageHeight: '630',
+  ogImageAlt: company.value.name,
+  ogImageType: 'image/jpeg',
+  ogImageSecureUrl: company.value.logo,
+  ogImageSecureUrlAlt: company.value.name,
+  ogImageSecureUrlType: 'image/jpeg',
+  ogImageSecureUrlWidth: '1200',
+  ogImageSecureUrlHeight: '630',
+
+})
 
 </script>

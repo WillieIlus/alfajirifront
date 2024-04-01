@@ -289,6 +289,41 @@ const router = useRouter()
 
 const { fetchJob, fetchJobsByCategory } = jobStore
 
+useSeoMeta({
+  title: job.value.title,
+  description: job.value.description,
+  image: job.value.company.logo,
+  url: router.currentRoute.value.fullPath,
+  imageAlt: job.value.company.name,
+  imageWidth: 1200,
+  imageHeight: 630,
+  twitterCard: 'summary_large_image',
+  twitterSite: '@site',
+  twitterCreator: '@creator',
+  twitterTitle: job.value.title,
+  twitterDescription: job.value.description,
+  twitterImage: job.value.company.logo,
+  twitterImageAlt: job.value.company.name,
+  twitterImageWidth: 1200,
+  twitterImageHeight: 630,
+  ogType: 'article',
+  ogTitle: job.value.title,
+  ogDescription: job.value.description,
+  ogImage: job.value.company.logo,
+  ogImageAlt: job.value.company.name,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogUrl: router.currentRoute.value.fullPath,
+  ogSiteName: 'Site Name',
+  ogLocale: 'en_US',
+  ogArticlePublishedTime: job.value.created_at,
+  ogArticleModifiedTime: job.value.updated_at,
+  ogArticleSection: job.value.category.name,
+  ogArticleTag: job.value.category.name,
+  ogArticleAuthor: job.value.company.name,
+
+})
+
 onMounted(async () => {
   await fetchJob(route.params.slug)
   await fetchJobsByCategory(job.value.category.slug)
