@@ -168,6 +168,7 @@ const getUser = async () => {
 }
 
 const title = ref('')
+const slug = ref('')
 const description = ref('')
 const salary = ref('')
 const image = ref('')
@@ -183,18 +184,6 @@ const onFileChange = (e) => {
   image.value = file
 }
 
-const logSelectedCompany = (e) => {
-  console.log('Selected company:', e.target.value)
-}
-
-const logSelectedLocation = (e) => {
-  console.log('Selected location:', e.target.value)
-}
-
-const logSelectedCategory = (e) => {
-  console.log('Selected category:', e.target.value)
-}
-
 const schema = yup.object({
   title: yup.string().required(),
   description: yup.string().required(),
@@ -205,38 +194,37 @@ const schema = yup.object({
   image: yup.mixed()
 })
 
+
+
 const onSubmit = async (values) => {
-  submitting.value = true
-  const onFileChange = (e) => {
-    const file = e.target.files[0]
-    image.value = file
-  }
-  console.log('Submitting form', values)
-  const formData = new FormData()
-  formData.append('title', title.value)
-  formData.append('description', description.value)
-  formData.append('salary', salary.value)
-  formData.append('image', image.value)
-  formData.append('company', company.value)
-  formData.append('location', location.value)
-  formData.append('category', category.value)
-  formData.append('user', user.value.id)
+  submitting.value = true;
+  slug.value = `${values.title.toLowerCase().replace(/ /g, '-')}-${values.company}`  
   try {
-    await jobStore.addJob(formData)
-    successMessage.value = 'Job added successfully'
-    title.value = ''
-    description.value = ''
-    salary.value = ''
-    image.value = ''
-    company.value = ''
-    location.value = ''
-    category.value = ''
-    submitting.value = false
+    const data = new FormData();
+    data.append('title', values.title);
+    data.append('company', values.company);
+    data.append('location', values.location);
+    data.append('category', values.category);
+    data.append('description', values.description);
+    data.append('salary', values.salary);
+    data.append('image', image.value);
+    console.log('FormData:', data); // Log the FormData object being submitted
+    await jobStore.createJob(data);
+    successMessage.value = 'Job created successfully';
+    // createFormData();
+    setTimeout(() => {
+      successMessage.value = 'redirecting to the job detail'
+      router.push(`/jobs/${slug.value}`)
+    }, 2000
+    )
+
+    submitting.value = false;
   } catch (error) {
-    errorMessage.value = 'Failed to add job'
-    submitting.value = false
+    errorMessage.value = 'Failed to create job';
+    submitting.value = false;
   }
-}
+};
+
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {

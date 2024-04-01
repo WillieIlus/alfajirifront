@@ -188,17 +188,13 @@ const fetchLocations = async () => {
 const getUser = async () => {
   await accountStore.getUser()
 }
-const name = ref('')
-const slug = ref('')
-const description = ref('')
-const phone = ref('')
-const website = ref('')
-const email = ref('')
-const address = ref('')
-const category = ref('')
-const location = ref('')
-const logo = ref(null)
-const cover = ref(null)
+// because this is editing a company, we need to get the company details instead of creating a new company instance as we did in the create company form. We will use the company details to populate the form fields.
+// const name ref cannot be empty
+// const name cannot be empty string since this is updateing a company
+
+const name = ref('company.name')  //company.name
+const description = ref('company.description') //company.description
+
 
 const onLogoChange = (e) => {
   logo.value = e.target.files[0]
@@ -222,7 +218,7 @@ const schema = yup.object({
 
 const onSubmit = async (values) => {
   submitting.value = true
-  slug.value = values.name.toLowerCase().replace(/ /g, '-')
+  console.log('values:', values.name, values.description, values.phone, values.website, values.email, values.address, values.category, values.location, logo.value, cover.value)
   try {
     const data = new FormData()
     data.append('name', values.name)
@@ -241,8 +237,8 @@ const onSubmit = async (values) => {
     successMessage.value = 'Company created successfully'
     setTimeout(() => {
       successMessage.value = ''
-      router.push(`/companies/${slug.value}`)
-    }, 2000)
+      router.push('/companies')
+    }, 5000)
   } catch (error) {
     console.log(error)
     errorMessage.value = 'An error occurred. Please try again.'
