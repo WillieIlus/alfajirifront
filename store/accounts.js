@@ -75,22 +75,8 @@ export const useAccountStore = defineStore('account', {
       })
       const data = await response.json()
       this.user = data
-      // console.log('getUser', this.token, this.user)
     },
-
-    // async updateUser(data) {
-    //   const response = await fetch(`${BASE_URL}/accounts/users/me/`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${this.token}`
-    //     },
-    //     body: JSON.stringify({ data }),
-    //   })
-    //   const data = await response.json()
-    //   this.user = data
-    //   console.log(data)
-    // },
+    
     async updateUser(data) {
       try{
         const response = await fetch(`${BASE_URL}/accounts/users/me/`, {
