@@ -30,10 +30,10 @@
             <div>
               <div
                 class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-full mb-2">
-                <img :src="job.company_logo" class="size-8" alt="">
+                <img :src="job.company.logo || job.company.name" class="size-8" :alt="job.company.name">
               </div>
-              <NuxtLink :to="'/employers/' + job.company_slug"
-                class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.company_name }}
+              <NuxtLink :to="'/companies/' + job.company.slug"
+                class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.company.name }}
               </NuxtLink>
 
             </div>
@@ -55,9 +55,10 @@
           </div>
 
           <div class="mt-3">
-            <a href="job-detail-one.html"
-              class="text-xl hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.title }}</a>
-            <p class="text-slate-400 mt-2">{{ job.description }}</p>
+            <NuxtLink :to="'/jobs/' + job.slug"
+              class="text-xl hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.title }}
+            </NuxtLink>
+            <p class="text-slate-400 mt-2">{{ job.truncated_description }}</p>
             <div class="mt-3">
               <NuxtLink t0="">
                 <span
@@ -68,15 +69,16 @@
               <NuxtLink to="">
                 <span
                   class="bg-purple-600/5 hover:bg-purple-600/20 dark:bg-purple-600/10 hover:dark:bg-purple-600/30 inline-block text-purple-600 px-4 text-[14px] font-medium rounded-full mt-2 me-1 transition-all duration-500">
-                  {{ job.currency }}, {{ job.salary }} - {{ job.currency }}, {{ job.salary }}
+                  {{ job.currency }}, {{ job.min_salary }} - {{ job.currency }}, {{ job.max_salary }}
                 </span>
               </NuxtLink>
-              <NuxtLink to="">
+              <NuxtLink to="" v-if="job && job.location && job.location.name">
                 <span
                   class="bg-emerald-600/5 hover:bg-emerald-600/20 dark:bg-emerald-600/10 hover:dark:bg-emerald-600/30 inline-block text-emerald-600 px-4 text-[14px] font-medium rounded-full mt-2 transition-all duration-500">
                   <Icon name="uil:location-point" class="me-1" />{{ job.address }}, {{ job.location.name }}
                 </span>
               </NuxtLink>
+
             </div>
           </div>
         </div><!--end content-->
@@ -126,7 +128,8 @@
 
     <div class="container md:mt-24 mt-16">
       <div class="grid grid-cols-1 pb-8 text-center">
-        <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Here's why you'll love it
+        <h3 class="mb-4 md:text-[26px] md:leading-normal text-2xl leading-normal font-semibold">Here's why you'll love
+          it
           Jobstack</h3>
 
         <p class="text-slate-400 max-w-xl mx-auto">Search all the open positions on the web. Get your own personalized
@@ -263,42 +266,13 @@ const { category, loading, error } = storeToRefs(categoryStore);
 const { jobs, } = storeToRefs(jobStore)
 
 const { fetchCategory } = categoryStore;
-const { fetchJobs } = jobStore
+const { fetchJobsByCategory } = jobStore
 
-const breadcrumbs = [
-  {
-    label: 'Home',
-    to: '/',
-  },
-  {
-    label: 'Categories',
-    to: '/categories',
-  },
-  {
-    label: 'Category',
-    to: route.fullPath,
-  },
-];
-
-const pageTitle = route.params.slug || 'Category';
 
 onMounted(async () => {
   await fetchCategory(route.params.slug);
-  const categoryId = category.value.id || 1
-  await fetchJobs({ category: categoryId })
+  await fetchJobsByCategory(route.params.slug);
 
 });
 
-</script> 
- <!-- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a specific category. It uses the  useCategoryStore  and  useJobStore  to fetch the category and the jobs in that category. 
- The  Category  component is a simple component that displays the jobs in a -->
+</script>

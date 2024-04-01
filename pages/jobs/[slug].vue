@@ -188,34 +188,32 @@
       </div><!--end grid-->
 
       <div class="grid lg:grid-cols-3 md:grid-cols-2 mt-8 gap-[30px]">
-        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
+        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900" v-for="job in jobs" :key="job.id">
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div
                 class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                <img src="" class="size-8" alt="">
+                <img :src="job.company.logo || job.company.name" class="size-8" :alt="job.company.name">
               </div>
-
               <div class="ms-3">
-                <a href="employer-detail.html"
-                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Facebook</a>
-                <span class="block text-sm text-slate-400">2 days ago</span>
+                <Nuxtlink :to="'/companies/' + job.company.slug"
+                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">{{ job.company.name }}</Nuxtlink>
+                <span class="block text sm text-slate-400">{{ job.timesince }} ago</span>
               </div>
             </div>
 
             <span
-              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Full
-              Time</span>
+              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">
+              {{ job.job_type }}</span>
           </div>
 
           <div class="mt-6">
-            <a href="job-detail-one.html"
-              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Web Designer /
-              Developer</a>
-            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> Australia</h6>
+            <NuxtLink :to="'/categories/' + job.category.slug"
+              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">{{ job.category.name }}</NuxtLink>
+            <h6 class="text-base font-medium"><Icon name="uil:map-marker" class="text-emerald-600 me-1" /> {{ job.location.name }}</h6>
           </div>
 
-          <div class="mt-6">
+          <!-- <div class="mt-6">
             <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-[6px]">
               <div class="bg-emerald-600 h-[6px] rounded-full" style="width: 55%"></div>
             </div>
@@ -224,83 +222,9 @@
                   class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
                 vacancy</span>
             </div>
-          </div>
+          </div> -->
         </div><!--end content-->
 
-        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <div
-                class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                <img src="" class="size-8" alt="">
-              </div>
-
-              <div class="ms-3">
-                <a href="employer-detail.html"
-                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Google</a>
-                <span class="block text-sm text-slate-400">2 days ago</span>
-              </div>
-            </div>
-
-            <span
-              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Part
-              Time</span>
-          </div>
-
-          <div class="mt-6">
-            <a href="job-detail-one.html"
-              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Marketing Director</a>
-            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> USA</h6>
-          </div>
-
-          <div class="mt-6">
-            <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-[6px]">
-              <div class="bg-emerald-600 h-[6px] rounded-full" style="width: 55%"></div>
-            </div>
-            <div class="mt-2">
-              <span class="text-slate-400 text-sm"><span
-                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
-                vacancy</span>
-            </div>
-          </div>
-        </div><!--end content-->
-
-        <div class="group shadow dark:shadow-gray-700 p-6 rounded-md bg-white dark:bg-slate-900">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <div
-                class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                <img src="" class="size-8" alt="">
-              </div>
-
-              <div class="ms-3">
-                <a href="employer-detail.html"
-                  class="block text-[16px] font-semibold hover:text-emerald-600 transition-all duration-500">Android</a>
-                <span class="block text-sm text-slate-400">2 days ago</span>
-              </div>
-            </div>
-
-            <span
-              class="bg-emerald-600/10 group-hover:bg-emerald-600 inline-block text-emerald-600 group-hover:text-white text-xs px-2.5 py-0.5 font-semibold rounded-full transition-all duration-500">Remote</span>
-          </div>
-
-          <div class="mt-6">
-            <a href="job-detail-one.html"
-              class="text-lg hover:text-emerald-600 font-semibold transition-all duration-500">Application Developer</a>
-            <h6 class="text-base font-medium"><i class="uil uil-map-marker"></i> China</h6>
-          </div>
-
-          <div class="mt-6">
-            <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-[6px]">
-              <div class="bg-emerald-600 h-[6px] rounded-full" style="width: 55%"></div>
-            </div>
-            <div class="mt-2">
-              <span class="text-slate-400 text-sm"><span
-                  class="text-slate-900 dark:text-white font-semibold inline-block">21 applied</span> of 40
-                vacancy</span>
-            </div>
-          </div>
-        </div><!--end content-->
       </div>
       <!--end grid-->
     </div><!--end container-->
@@ -364,24 +288,11 @@ const { job, jobs, loading, error } = storeToRefs(jobStore)
 const route = useRoute()
 const router = useRouter()
 
-const breadcrumbs = [
-  {
-    label: 'Home',
-    to: '/',
-  },
-  {
-    label: 'Jobs',
-    to: '/jobs',
-  },
-  {
-    label: 'Job Details',
-    to: route.fullPath,
-  }
-]
-
+const { fetchJob, fetchJobsByCategory } = jobStore
 
 onMounted(async () => {
-  await jobStore.fetchJob(route.params.slug)
+  await fetchJob(route.params.slug)
+  await fetchJobsByCategory(job.value.category.slug)
 })
 
 </script>

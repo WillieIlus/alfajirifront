@@ -33,18 +33,6 @@ export const useJobStore = defineStore('job', {
       }
     },
 
-    // async fetchJobs(filters = {}) {
-    //   await this.handleError(async () => {
-    //     const queryString = Object.entries(filters)
-    //       .map(([key, value]) => `${key}=${value}`)
-    //       .join('&');
-
-    //     const response = await fetch(`${BASE_URL}/jobs?${queryString}`);
-    //     const data = await response.json();
-    //     this.jobs = data;
-    //   });
-    // },
-    // set fetchjob to no cors
     async fetchJobs() {
       await this.handleError(async () => {
         const response = await fetch(`${BASE_URL}/jobs`);
@@ -69,7 +57,7 @@ export const useJobStore = defineStore('job', {
     // fetch jobs by category slug
     async fetchJobsByCategory(slug) {
       await this.handleError(async () => {
-        const response = await fetch(`${BASE_URL}/jobs/categories/${slug}`);
+        const response = await fetch(`${BASE_URL}/jobs/category/${slug}`);
         const data = await response.json();
         this.jobs = data;
       });
