@@ -268,7 +268,6 @@ const { jobs, } = storeToRefs(jobStore)
 const { fetchCategory } = categoryStore;
 const { fetchJobsByCategory } = jobStore
 
-
 onMounted(async () => {
   await fetchCategory(route.params.slug);
   await fetchJobsByCategory(route.params.slug);

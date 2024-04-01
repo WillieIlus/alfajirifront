@@ -1,4 +1,4 @@
-<template >
+<template>
   <div v-if="loading" class="col-span-12 text-center">
     <div class="spinner"></div>
   </div>
@@ -7,10 +7,16 @@
   </div>
   <div v-if="company" class="relative">
     <!-- Start Hero -->
-    <section
-      class="relative table w-full py-40 bg-[url('../../assets/images/hero/bg4.jpg')] bg-center bg-no-repeat bg-cover">
+    <section class="relative table w-full py-40" :style="{
+    backgroundImage: `url(${company.cover || '../../assets/images/hero/bg4.jpg'})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  }">
       <div class="absolute inset-0 bg-emerald-900/60"></div>
-    </section><!--end section-->
+    </section>
+
+    <!--end section-->
     <div class="relative">
       <div
         class="shape absolute start-0 end-0 sm:-bottom-px -bottom-[2px] overflow-hidden z-1 text-white dark:text-slate-900">
@@ -27,13 +33,12 @@
           <div
             class="md:flex justify-between items-center shadow dark:shadow-gray-700 rounded-md p-6 bg-white dark:bg-slate-900">
             <div class="flex items-center">
-              <img src="assets/images/company/skype.png"
-                class="size-20 p-3 shadow dark:shadow-gray-700 rounded-md bg-slate-50 dark:bg-slate-800" alt="">
-
+              <img :src="company.logo"
+                class="size-14 shadow-md dark:shadow-gray-800 rounded-md p-2 bg-white dark:bg-slate-900" alt="">
               <div class="ms-4">
                 <h5 class="text-xl font-bold"> {{ company.name }}</h5>
                 <h6 class="text-base text-slate-400">
-                  <Icon name="uil:map-marker" /> {{ company.get_location }}
+                  <Icon name="uil:map-marker" /> {{ company.location.name }}
                 </h6>
               </div>
             </div>
@@ -59,18 +64,27 @@
             <h5 class="text-xl font-semibold mt-6">Vacancies:</h5>
 
             <div class="grid lg:grid-cols-2 grid-cols-1 gap-6 mt-6">
-              <div v-for="job in jobs" :key="job.id" class="group relative overflow-hidden rounded-md shadow dark:shadow-gray-800">
+              <div v-for="job in jobs" :key="job.id"
+                class="group relative overflow-hidden rounded-md shadow dark:shadow-gray-800">
                 <div class="p-6">
-                  <NuxtLink :to="`/jobs/${job.slug}`" class="title h5 text-lg font-semibold hover:text-emerald-600">{{ job.title }}</NuxtLink>
-                  <p class="text-slate-400 mt-2"><Icon name="uil:clock" /> {{ job.timesince }} ago</p>
+                  <NuxtLink :to="`/jobs/${job.slug}`" class="title h5 text-lg font-semibold hover:text-emerald-600">{{
+    job.title }}</NuxtLink>
+                  <p class="text-slate-400 mt-2">
+                    <Icon name="uil:clock" /> {{ job.timesince }} ago
+                  </p>
                   <div class="flex justify-between items-center mt-4">
-                    <span class="bg-emerald-600/5 text-emerald-600 text-xs font-bold px-2.5 py-0.5 rounded h-5">{{ job.timesince }}</span>
-                    <p class="text-slate-400"> <Icon name="uil:usd-circle" class="text-emerald-600"/>{{ job.currency }} {{ job.salary }}/ {{ job.salary_type }}</p>
+                    <span class="bg-emerald-600/5 text-emerald-600 text-xs font-bold px-2.5 py-0.5 rounded h-5">{{
+    job.timesince }}</span>
+                    <p class="text-slate-400">
+                      <Icon name="uil:usd-circle" class="text-emerald-600" />{{ job.currency }} {{ job.salary }}/ {{
+    job.salary_type }}
+                    </p>
                   </div>
                 </div>
 
                 <div class="flex items-center p-6 border-t border-gray-100 dark:border-gray-700">
-                  <img :src="job" class="size-12 shadow-md dark:shadow-gray-800 rounded-md p-2 bg-white dark:bg-slate-900" alt="">
+                  <img :src="job"
+                    class="size-12 shadow-md dark:shadow-gray-800 rounded-md p-2 bg-white dark:bg-slate-900" alt="">
                   <div class="ms-3">
                     <h6 class="mb-0 font-semibold text-base">{{ job.get_company }}</h6>
                     <span class="text-slate-400 text-sm">{{ job.get_location }}</span>
@@ -82,32 +96,25 @@
 
           <div class="lg:col-span-4 md:col-span-5">
             <div class="bg-slate-50 dark:bg-slate-800 rounded-md shadow dark:shadow-gray-700 p-6 sticky top-20">
-              <div class="w-full leading-[0] border-0">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin"
-                  style="border:0" class="w-full h-[350px] rounded-md shadow dark:shadow-gray-700"
-                  allowfullscreen></iframe>
-              </div>
-
-              <ul class="list-none mt-4">
+                            <ul class="list-none mt-4">
                 <li class="flex justify-between mt-2">
                   <span class="text-slate-400 font-medium">Founded:</span>
-                  <span class="font-medium">2003</span>
+                  <span class="font-medium">Not Specified</span>
                 </li>
 
                 <li class="flex justify-between mt-2">
                   <span class="text-slate-400 font-medium">Founder:</span>
-                  <span class="font-medium">{{ company.user }}</span>
+                  <span class="font-medium">{{ company.user.first_name }}</span>
                 </li>
 
                 <li class="flex justify-between mt-2">
                   <span class="text-slate-400 font-medium">Headquarters:</span>
-                  <span class="font-medium">{{ company.get_location }}</span>
+                  <span class="font-medium">{{ company.location.name }}</span>
                 </li>
 
                 <li class="flex justify-between mt-2">
                   <span class="text-slate-400 font-medium">Number of employees:</span>
-                  <span class="font-medium">788</span>
+                  <span class="font-medium">Not Specified</span>
                 </li>
 
                 <li class="flex justify-between mt-2">
@@ -119,27 +126,48 @@
                   <span class="text-slate-400 font-medium">Social:</span>
 
                   <ul class="list-none text-end space-x-0.5">
-                    <li class="inline"><NuxtLink to="/" target="_blank"
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:dribbble"  class = "align-middle" title="dribbble"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:dribbble" class="align-middle" title="dribbble" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:behance"  class = "align-middle" title="Behance"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:behance" class="align-middle" title="Behance" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:linkedin"  class = "align-middle" title="Linkedin"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:linkedin" class="align-middle" title="Linkedin" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:facebook-f"  class = "align-middle" title="facebook"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:facebook-f" class="align-middle" title="facebook" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:instagram"  class = "align-middle" title="instagram"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:instagram" class="align-middle" title="instagram" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:twitter"  class = "align-middle" title="twitter"/></NuxtLink></li>
-                          <li class="inline"><NuxtLink to="/" target="_blank"
+                        <Icon name="uil:twitter" class="align-middle" title="twitter" />
+                      </NuxtLink>
+                    </li>
+                    <li class="inline">
+                      <NuxtLink to="/" target="_blank"
                         class="btn btn-icon btn-sm border-2 border-gray-200 dark:border-gray-700 rounded-md hover:border-emerald-600 dark:hover:border-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white dark:text-white text-slate-400">
-                        <Icon name="uil:envelope"  class = "align-middle" title="email"/></NuxtLink></li>
+                        <Icon name="uil:envelope" class="align-middle" title="email" />
+                      </NuxtLink>
+                    </li>
                   </ul><!--end icon-->
                 </li>
               </ul>
@@ -158,19 +186,23 @@
         </div><!--end grid-->
 
         <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-[30px] mt-8">
-          <div v-for="company in companies" :key="company.id" class="group relative p-6 rounded-md shadow dark:shadow-gray-700 mt-6">
+          <div v-for="company in companies" :key="company.id"
+            class="group relative p-6 rounded-md shadow dark:shadow-gray-700 mt-6">
             <div
               class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md relative -mt-12">
               <img :src="company.logo" class="size-8" :alt="company.name">
             </div>
 
             <div class="mt-4">
-              <NuxtLink :to="`/companies/${company.slug}`" class="text-lg hover:text-emerald-600 font-semibold">{{ company.name }}</NuxtLink>
+              <NuxtLink :to="`/companies/${company.slug}`" class="text-lg hover:text-emerald-600 font-semibold">{{
+    company.name }}</NuxtLink>
               <p class="text-slate-400 mt-2">Digital Marketing Solutions for Tomorrow</p>
             </div>
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between">
-              <span class="text-slate-400"><Icon name="uil:map-marker" />{{ company.get_location }}</span>
+              <span class="text-slate-400">
+                <Icon name="uil:map-marker" />{{ company.get_location }}
+              </span>
               <span class="block font-semibold text-emerald-600"> {{ company.job_count }} Jobs</span>
             </div>
           </div><!--end content-->
@@ -194,20 +226,25 @@
 
                 <div class="lg:col-span-4 md:col-span-5">
                   <div class="text-end relative z-1">
-                    <NuxtLink to="/jobs/apply" class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">Apply Now</NuxtLink>
+                    <NuxtLink to="/jobs/apply"
+                      class="btn bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">
+                      Apply Now</NuxtLink>
                     <NuxtLink to="/about"
-                    class="btn bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-2">Learn
+                      class="btn bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-2">
+                      Learn
                       More</NuxtLink>
                   </div>
                 </div>
               </div>
 
               <div class="absolute -top-5 -start-5">
-                <Icon name="uil:envelope" class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45"></Icon>
+                <Icon name="uil:envelope"
+                  class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:-rotate-45 rtl:rotate-45"></Icon>
               </div>
 
               <div class="absolute -bottom-5 -end-5">
-                <Icon name="uil:pencil" class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:rotate-45 rtl:-rotate-45"></Icon>
+                <Icon name="uil:pencil"
+                  class="lg:text-[150px] text-7xl text-black/5 dark:text-white/5 ltr:rotate-45 rtl:-rotate-45"></Icon>
               </div>
             </div>
           </div><!--end grid-->
@@ -234,34 +271,23 @@ const { jobs } = storeToRefs(jobStore)
 const route = useRoute()
 const router = useRouter()
 
-const fetchJobs = async () => {
-await jobStore.fetchJobs()
+const fetchCompany = async () => {
+  await companyStore.fetchCompany(route.params.slug)
 }
 
-const breadcrumbs = [
-{
-  label: 'Home',
-  to: '/',
-},
-{
-  label: 'Companies',
-  to: '/companies',
-},
-{
-  label: route.params.slug || 'Company',
-  to: route.fullPath,
+const fetchCompaniesByCategory = async () => {
+  await companyStore.fetchCompaniesByCategory(company.value.category.slug)
 }
-]
 
-const pageTitle = route.params.slug || 'Company'
+const fetchJobsByCompany = async () => {
+  await jobStore.fetchJobsByCompany(route.params.slug)
+}
 
-
-onMounted(async() => {
-await companyStore.fetchCompany(route.params.slug)
-const companyId = company.value.id || 1
-const categoryId = company.value.category || 1
-await jobStore.fetchJobs({ company: companyId })
-await companyStore.fetchCompanies({ category: categoryId })
+onMounted(() => {
+  fetchCompany()
+  fetchCompaniesByCategory()
+  fetchJobsByCompany()
 })
+
 
 </script>

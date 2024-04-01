@@ -63,6 +63,24 @@ export const useJobStore = defineStore('job', {
       });
     },
 
+    //fetch jobs by company slug
+    async fetchJobsByCompany(slug) {
+      await this.handleError(async () => {
+        const response = await fetch(`${BASE_URL}/jobs/company/${slug}`);
+        const data = await response.json();
+        this.jobs = data;
+      });
+    },
+
+    //fetch jobs by location slug
+    async fetchJobsByLocation(slug) { 
+      await this.handleError(async () => {
+        const response = await fetch(`${BASE_URL}/jobs/location/${slug}`);
+        const data = await response.json();
+        this.jobs = data;
+      });
+    },
+
     async fetchJob(slug) {
       await this.handleError(async () => {
         const response = await fetch(`${BASE_URL}/jobs/${slug}`);

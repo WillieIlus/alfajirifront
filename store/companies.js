@@ -29,6 +29,14 @@ export const useCompanyStore = defineStore('company', {
       }
     },
 
+    async fetchCompaniesByCategory(slug) {
+      await this.handleError(async () => {
+        const response = await fetch(`${BASE_URL}/companies/category/${slug}`);
+        const data = await response.json();
+        this.companies = data;
+      });
+    },
+
     async fetchCompanies() {
       await this.handleError(async () => {
         const response = await fetch(`${BASE_URL}/companies`);

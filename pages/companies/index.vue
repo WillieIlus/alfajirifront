@@ -48,13 +48,13 @@
           <div class="mt-4">
             <NuxtLink :to="`/companies/${company.slug}`" class="text-lg hover:text-emerald-600 font-semibold">{{
               company.name }}</NuxtLink>
-            <p class="mt-2 text-slate-400 dark:text-slate-500 truncate">{{ company.description }} </p>
+            <p class="mt-2 text-slate-400 dark:text-slate-500 truncate">{{ company.truncated_description }} </p>
           </div>
         <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between">
           <span class="text-slate-400">
             <Icon name="uil:map-marker" />{{ company.get_location }}
           </span>
-          <span class="block font-semibold text-emerald-600">{{ company.job_count }} Jobs</span>
+          <span class="block font-semibold text-emerald-600">{{ company.total_jobs }} Jobs</span>
         </div>
       </div><!--end content-->
     </div><!--end grid-->

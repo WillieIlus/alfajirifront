@@ -279,7 +279,6 @@ import { useJobStore } from '~/store/jobs'
 import { useCategoryStore } from '~/store/categories'
 import { useLocationStore } from '~/store/locations'
 
-
 const jobStore = useJobStore()
 const categoryStore = useCategoryStore()
 const locationStore = useLocationStore()
