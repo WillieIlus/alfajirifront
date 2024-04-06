@@ -10,11 +10,11 @@
         <div class="md:w-full">
           <div class="relative flex items-end justify-between">
             <div class="relative flex items-end">
-              <img :src="user.avatar" class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
+              <img v-if="userById && userById.avatar" :src="userById.avatar" class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
                 alt="">
               <div class="ms-4">
-                <h5 class="text-lg font-semibold"> {{ user.first_name }} {{ user.last_name }}</h5>
-                <p class="text-slate-400">{{ user.role }}</p>
+                <h5 class="text-lg font-semibold"> {{ userById && userById.first_name || 'Unknown' }} {{ userById && userById.last_name || 'User' }}</h5>
+                <p class="text-slate-400">{{ userById && userById.role || 'Role not specified' }}</p>
               </div>
             </div>
             <div class="">
@@ -34,8 +34,8 @@
     <div class="container">
       <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
         <div class="lg:col-span-8 md:col-span-7">
-          <h5 class="text-xl font-semibold">{{ user.first_name }} {{ user.last_name }}</h5>
-          <p class="text-slate-400 mt-4">{{ user.bio }}</p>
+          <h5 class="text-xl font-semibold">{{ userById && userById.first_name || 'Unknown' }} {{ userById && userById.last_name || 'User' }}</h5>
+          <p class="text-slate-400 mt-4">{{ userById && userById.bio || 'Bio not available' }}</p>
         </div><!--end col-->
 
         <div class="lg:col-span-4 md:col-span-5">
@@ -45,32 +45,27 @@
               <li class="flex justify-between mt-3 items-center font-medium">
                 <span><i data-feather="mail" class="size-4 text-slate-400 me-3 inline"></i><span
                     class="text-slate-400 me-3">Email :</span></span>
-
-                <span>{{ user.email }}</span>
+                <span>{{ userById && userById.email || 'Email not provided' }}</span>
               </li>
               <li class="flex justify-between mt-3 items-center font-medium">
                 <span><i data-feather="gift" class="size-4 text-slate-400 me-3 inline"></i><span
                     class="text-slate-400 me-3">D.O.B. :</span></span>
-
-                <span>{{ user.date_of_birth }}</span>
+                <span>{{ userById && userById.date_of_birth || 'Date of Birth not provided' }}</span>
               </li>
               <li class="flex justify-between mt-3 items-center font-medium">
                 <span><i data-feather="home" class="size-4 text-slate-400 me-3 inline"></i><span
                     class="text-slate-400 me-3">Address :</span></span>
-
-                <span>{{ user.address }}</span>
+                <span>{{ userById && userById.address || 'Address not provided' }}</span>
               </li>
               <li class="flex justify-between mt-3 items-center font-medium">
                 <span><i data-feather="map-pin" class="size-4 text-slate-400 me-3 inline"></i><span
                     class="text-slate-400 me-3">City :</span></span>
-
-                <span>{{ user.city }}</span>
+                <span>{{ userById && userById.city || 'City not provided' }}</span>
               </li>
-
               <li class="flex justify-between mt-3 items-center font-medium">
                 <span><i data-feather="phone" class="size-4 text-slate-400 me-3 inline"></i><span
                     class="text-slate-400 me-3">Mobile :</span></span>
-                <span>{{ user.phone }}</span>
+                <span>{{ userById && userById.phone || 'Phone number not provided' }}</span>
               </li>
             </ul>
           </div>
@@ -91,7 +86,8 @@ const pageTitle = ref('Dashboard')
 const accountStore = useAccountStore()
 const router = useRouter()
 
-const { user, isLoggedIn } = accountStore
+const { userById, isLoggedIn } = accountStore
+
 const editProfile = () => {
   router.push('/accounts/profile')
 }
@@ -100,10 +96,15 @@ const changePassword = () => {
   router.push('/accounts/change-password')
 }
 
+const getUserById = async () => {
+  await accountStore.getUserById()
+}
+
 onMounted(() => {
   if (!isLoggedIn) {
     router.push('/login')
   }
+  getUserById()
 })
 
 </script>

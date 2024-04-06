@@ -1,4 +1,17 @@
-                   
+<template>
+  <div>
+    <h1>Profile</h1>
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="error">{{ error }}</div>
+    <div v-else>
+      <div>User: {{ userById }}</div>
+      <br/>
+      <hr/>
+      <br/>
+      <div> bio: {{ userById.bio  }}</div>
+    </div>
+  </div>
+</template>                   
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -14,13 +27,9 @@ const accountStore = useAccountStore()
 const jobStore = useJobStore()
 const companyStore = useCompanyStore()
 
-const { user, loading, error } = storeToRefs(accountStore)
+const { userById, loading, error } = storeToRefs(accountStore)
 const { paginatedJobs } = storeToRefs(jobStore)
 const { companies } = storeToRefs(companyStore)
-
-const getUser = async () => {
-  await accountStore.getUser()
-}
 
 const getPaginatedJobs = async () => {
   await jobStore.fetchJobs()
@@ -30,21 +39,17 @@ const getCompanies = async () => {
   await companyStore.fetchCompanies()
 }
 
-const breadcrumbs = [
-  { label: 'Home', to: '/' },
-  { label: 'Accounts', to: '/accounts' },
-  { label: 'Settings', to: '/accounts/settings' }
-]
-
-const pageTitle = 'Settings'
+const getUserById = async () => {
+  await accountStore.getUserById()
+}
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {
     router.push('/accounts/login')
   }
-  getUser()
   getPaginatedJobs()
   getCompanies()
+  getUserById()
 })
 
 </script>

@@ -58,12 +58,12 @@
                                         <label class="font-semibold">Categories</label>
                                         <select
                                             class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
-                                            <select v-if="categories"
+                                            <option v-if="categories"
                                                 class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
                                                 <option v-for="category in categories" :key="category.id"
                                                     :value="category.id">
                                                     {{ category.name }}</option>
-                                            </select>
+                                            </option>
                                         </select>
                                     </div>
 
@@ -345,7 +345,6 @@
     </section><!--end section-->
     <!-- End -->
 </template>
-
 <script setup>
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
