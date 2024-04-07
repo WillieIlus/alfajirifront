@@ -168,7 +168,6 @@ const getUser = async () => {
 }
 
 const title = ref('')
-const slug = ref('')
 const description = ref('')
 const salary = ref('')
 const image = ref('')
@@ -197,8 +196,7 @@ const schema = yup.object({
 
 
 const onSubmit = async (values) => {
-  submitting.value = true;
-  slug.value = `${values.title.toLowerCase().replace(/ /g, '-')}-${values.company}`  
+  submitting.value = true; 
   try {
     const data = new FormData();
     data.append('title', values.title);
@@ -214,7 +212,7 @@ const onSubmit = async (values) => {
     // createFormData();
     setTimeout(() => {
       successMessage.value = 'redirecting to the job detail'
-      router.push(`/jobs/${slug.value}`)
+      router.push(`/jobs/`)
     }, 2000
     )
 
