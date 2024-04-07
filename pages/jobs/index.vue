@@ -60,9 +60,9 @@
                                             class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
                                             <option v-if="categories"
                                                 class="form-select form-input border border-slate-100 dark:border-slate-800 block w-full mt-1">
-                                                <option v-for="category in categories" :key="category.id"
-                                                    :value="category.id">
-                                                    {{ category.name }}</option>
+                                            <option v-for="category in categories" :key="category.id"
+                                                :value="category.id">
+                                                {{ category.name }}</option>
                                             </option>
                                         </select>
                                     </div>
@@ -135,10 +135,12 @@
                                                 <span
                                                     class="bg-emerald-600/10 inline-block text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
                                                     {{ job.job_type }}</span>
-                                                <span class="text-sm font-medium inline-block me-1">Est. time: <span
-                                                        class="text-slate-400">1 to 3 months</span></span>
-                                                <span class="text-sm font-medium inline-block me-1">Hourly: <span
-                                                        class="text-slate-400">$16 - $20</span></span>
+                                                <span v-if="job.days_left" class="text-sm font-medium inline-block me-1">Days Left: <span
+                                                        class="text-slate-400">{{ job.days_left }}  </span></span>
+                                                <span v-if="job.min_salary && job.max_salary"
+                                                    class="text-sm font-medium inline-block me-1">{{ job.salary_type }}:
+                                                    <span class="text-slate-400">{{ job.currency }} {{ job.min_salary }}
+                                                        - {{ job.currency }} {{ job.max_salary }} </span></span>
                                             </div>
                                         </div>
                                     </div>
