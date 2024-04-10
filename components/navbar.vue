@@ -38,7 +38,7 @@
             <div class="relative ">
               <button type="button" @click="toggleAuthbar" class="block flex items-center px-4 py-5 dropdown-toggle"
                 id="page-header-user-dropdown" aria-haspopup="true" aria-expanded="true">
-                <img class="h-8 w-8 rounded-full" src="https://plchldr.co/i/200x200?bg=808080&text=USER"
+                <img class="h-8 w-8 rounded-full" src="~/assets/images/team/01.jpg"
                   alt="Header Avatar">
                 <span class="lg:inline-block"></span>
               </button>

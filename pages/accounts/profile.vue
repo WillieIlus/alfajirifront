@@ -27,7 +27,7 @@ const accountStore = useAccountStore()
 const jobStore = useJobStore()
 const companyStore = useCompanyStore()
 
-const { userById, loading, error } = storeToRefs(accountStore)
+const { user, userById, loading, error } = storeToRefs(accountStore)
 const { paginatedJobs } = storeToRefs(jobStore)
 const { companies } = storeToRefs(companyStore)
 
@@ -43,13 +43,20 @@ const getUserById = async () => {
   await accountStore.getUserById()
 }
 
+const getUser = async () => {
+  await accountStore.getUser()
+}
+
+
 onMounted(() => {
   if (!accountStore.isLoggedIn) {
-    router.push('/accounts/login')
+    router.push('/login')
   }
   getPaginatedJobs()
   getCompanies()
   getUserById()
+  getUser()
 })
+
 
 </script>

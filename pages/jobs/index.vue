@@ -135,8 +135,9 @@
                                                 <span
                                                     class="bg-emerald-600/10 inline-block text-emerald-600 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
                                                     {{ job.job_type }}</span>
-                                                <span v-if="job.days_left" class="text-sm font-medium inline-block me-1">Days Left: <span
-                                                        class="text-slate-400">{{ job.days_left }}  </span></span>
+                                                <span v-if="job.days_left"
+                                                    class="text-sm font-medium inline-block me-1">Days Left: <span
+                                                        class="text-slate-400">{{ job.days_left }} </span></span>
                                                 <span v-if="job.min_salary && job.max_salary"
                                                     class="text-sm font-medium inline-block me-1">{{ job.salary_type }}:
                                                     <span class="text-slate-400">{{ job.currency }} {{ job.min_salary }}
@@ -407,6 +408,46 @@ const debounce = (func, delay) => {
 const debouncedSearch = debounce(performSearch, 3000)
 
 watch(searchTitle, debouncedSearch)
+
+//create a const seoJobs to store the jobs data for useSeoMeta to add meta tags for twitter and facebook
+
+const seoJobs = computed(() => {
+    const title = 'Find the latest jobs added to Alfajirjobs'
+    const description = 'Explore numerous job opportunities, gain personalized insights, and access comprehensive company details within our extensive database.'
+    const image = 'https://alfajirijobs.com/assets/images/hero/bg.jpg'
+    const url = 'https://alfajirijobs.com/jobs'
+    const card = 'summary_large_image'
+    return {
+        title,
+        description,
+        image,
+        url,
+
+    openGraph: {
+        title,
+            description,
+            image,
+            url
+    },
+    twitter: {
+        title,
+            description,
+            image,
+            card
+    }
+}
+
+})
+
+useSeoMeta({
+    title: seoJobs.value.title,
+    description: seoJobs.value.description,
+    image: seoJobs.value.image,
+    url: seoJobs.value.url,
+    card: seoJobs.value.card,
+    openGraph: seoJobs.value.openGraph,
+    twitter: seoJobs.value.twitter
+})
 
 onMounted(async () => {
     await jobStore.fetchJobs()

@@ -1,80 +1,128 @@
 <template>
-  <section class="relative lg:mt-24 mt-[74px]">
-    <div class="lg:container container-fluid">
-      <div class="relative shrink-0">
-        <img src="assets/images/hero/bg5.jpg" class="h-64 w-full object-cover lg:rounded-xl shadow dark:shadow-gray-700"
-          alt="">
-      </div>
+  <div v-if="loading">Loading...</div>
+  <div v-else-if="error">{{ error }}</div>
+  <div v-else>
+    <div v-if="userById">
+      <section class="relative lg:mt-24 mt-[74px]">
+        <div class="lg:container container-fluid">
+          <div class="relative shrink-0">
+            <img v-if="userById.avatar" class="h-64 w-full object-cover lg:rounded-xl shadow dark:shadow-gray-700"
+              alt="">
+            <img v-else src="assets/images/team/01.jpg"
+              class="h-64 w-full object-cover lg:rounded-xl shadow dark:shadow-gray-700" alt="Default Image">
+          </div>
+          <div class="md:flex mx-4 -mt-12">
+            <div class="md:w-full">
+              <div class="relative flex items-end justify-between">
+                <div class="relative flex items-end">
+                  <img v-if="userById.avatar"
+                    class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
+                    alt="">
+                  <div class="ms-4">
+                    <h5 class="text-lg font-semibold"> {{ userById.first_name || '' }} {{ userById.last_name || '' }}
+                    </h5>
+                    <p class="text-slate-400">{{ userById.role || 'Role not specified' }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <!-- Profile Edit Link -->
+                  <span class="relative inline-block">
+                    <NuxtLink to="/accounts/profile"
+                      class="btn btn-icon rounded-full bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white"
+                      @mouseover="hoverText = 'Edit Profile'" @mouseleave="hoverText = ''">
+                      <Icon name="uil:pen" class="size-4" />
+                    </NuxtLink>
+                    <span v-if="hoverText === 'Edit Profile'"
+                      class="absolute top-0 left-0 bg-gray-800 text-white px-2 py-1 rounded-lg mt-4">
+                      Edit Profile
+                    </span>
+                  </span>
 
-      <div class="md:flex mx-4 -mt-12">
-        <div class="md:w-full">
-          <div class="relative flex items-end justify-between">
-            <div class="relative flex items-end">
-              <img v-if="userById && userById.avatar" :src="userById.avatar" class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
-                alt="">
-              <div class="ms-4">
-                <h5 class="text-lg font-semibold"> {{ userById && userById.first_name || 'Unknown' }} {{ userById && userById.last_name || 'User' }}</h5>
-                <p class="text-slate-400">{{ userById && userById.role || 'Role not specified' }}</p>
+                  <!-- Add Company Link -->
+                  <span class="relative inline-block ms-2">
+                    <NuxtLink to="/companies/add-company"
+                      class="btn btn-icon rounded-full bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white"
+                      @mouseover="hoverText = 'Add Company'" @mouseleave="hoverText = ''">
+                      <Icon name="uil:plus" class="size-4" />
+                    </NuxtLink>
+                    <span v-if="hoverText === 'Add Company'"
+                      class="absolute top-0 left-0 bg-gray-800 text-white px-2 py-1 rounded-lg mt-4">
+                      Add Company
+                    </span>
+                  </span>
+
+                  <!-- Add Job Link -->
+                  <span class="relative inline-block ms-2">
+                    <NuxtLink to="/jobs/add-job"
+                      class="btn btn-icon rounded-full bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white"
+                      @mouseover="hoverText = 'Add Job'" @mouseleave="hoverText = ''">
+                      <Icon name="uil:newspaper" class="size-4" />
+                    </NuxtLink>
+                    <span v-if="hoverText === 'Add Job'"
+                      class="absolute top-0 left-0 bg-gray-800 text-white px-2 py-1 rounded-lg mt-4">
+                      Add Job
+                    </span>
+                  </span>
+
+                </div>
+
+
               </div>
             </div>
-            <div class="">
-              <NuxtLink to="/accounts/profile" class="btn btn-icon rounded-full bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white">
-                <i data-feather="settings" class="size-4"></i>
-              </NuxtLink>
-            </div>
           </div>
-        </div>
-      </div>
-    </div><!--end -->
-  </section>
-  <!-- End Hero -->
+        </div><!--end -->
+      </section>
+      <!-- End Hero -->
 
-  <!-- Start -->
-  <section class="relative mt-12 md:pb-24 pb-16">
-    <div class="container">
-      <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
-        <div class="lg:col-span-8 md:col-span-7">
-          <h5 class="text-xl font-semibold">{{ userById && userById.first_name || 'Unknown' }} {{ userById && userById.last_name || 'User' }}</h5>
-          <p class="text-slate-400 mt-4">{{ userById && userById.bio || 'Bio not available' }}</p>
-        </div><!--end col-->
+      <!-- Start -->
+      <section class="relative mt-12 md:pb-24 pb-16">
+        <div class="container">
+          <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
+            <div class="lg:col-span-8 md:col-span-7">
+              <h5 class="text-xl font-semibold">{{ userById.first_name || 'Unknown' }} {{ userById.last_name || 'User'
+                }}
+              </h5>
+              <p class="text-slate-400 mt-4">{{ userById.bio || 'Bio not available' }}</p>
+            </div><!--end col-->
 
-        <div class="lg:col-span-4 md:col-span-5">
-          <div class="bg-slate-50 dark:bg-slate-800 rounded-md shadow dark:shadow-gray-700 p-6 sticky top-20">
-            <h5 class="text-lg font-semibold">Personal Detail:</h5>
-            <ul class="list-none mt-4">
-              <li class="flex justify-between mt-3 items-center font-medium">
-                <span><i data-feather="mail" class="size-4 text-slate-400 me-3 inline"></i><span
-                    class="text-slate-400 me-3">Email :</span></span>
-                <span>{{ userById && userById.email || 'Email not provided' }}</span>
-              </li>
-              <li class="flex justify-between mt-3 items-center font-medium">
-                <span><i data-feather="gift" class="size-4 text-slate-400 me-3 inline"></i><span
-                    class="text-slate-400 me-3">D.O.B. :</span></span>
-                <span>{{ userById && userById.date_of_birth || 'Date of Birth not provided' }}</span>
-              </li>
-              <li class="flex justify-between mt-3 items-center font-medium">
-                <span><i data-feather="home" class="size-4 text-slate-400 me-3 inline"></i><span
-                    class="text-slate-400 me-3">Address :</span></span>
-                <span>{{ userById && userById.address || 'Address not provided' }}</span>
-              </li>
-              <li class="flex justify-between mt-3 items-center font-medium">
-                <span><i data-feather="map-pin" class="size-4 text-slate-400 me-3 inline"></i><span
-                    class="text-slate-400 me-3">City :</span></span>
-                <span>{{ userById && userById.city || 'City not provided' }}</span>
-              </li>
-              <li class="flex justify-between mt-3 items-center font-medium">
-                <span><i data-feather="phone" class="size-4 text-slate-400 me-3 inline"></i><span
-                    class="text-slate-400 me-3">Mobile :</span></span>
-                <span>{{ userById && userById.phone || 'Phone number not provided' }}</span>
-              </li>
-            </ul>
-          </div>
-        </div><!--end col-->
-      </div><!--end grid-->
-    </div><!--end container-->
-  </section><!--end section-->
-  <!-- Start -->
-
+            <div class="lg:col-span-4 md:col-span-5">
+              <div class="bg-slate-50 dark:bg-slate-800 rounded-md shadow dark:shadow-gray-700 p-6 sticky top-20">
+                <h5 class="text-lg font-semibold">Personal Detail:</h5>
+                <ul class="list-none mt-4">
+                  <li class="flex justify-between mt-3 items-center font-medium">
+                    <span><i data-feather="mail" class="size-4 text-slate-400 me-3 inline"></i><span
+                        class="text-slate-400 me-3">Email :</span></span>
+                    <span>{{ userById.email || 'Email not provided' }}</span>
+                  </li>
+                  <li class="flex justify-between mt-3 items-center font-medium">
+                    <span><i data-feather="gift" class="size-4 text-slate-400 me-3 inline"></i><span
+                        class="text-slate-400 me-3">D.O.B. :</span></span>
+                    <span>{{ userById.date_of_birth || 'Date of Birth not provided' }}</span>
+                  </li>
+                  <li class="flex justify-between mt-3 items-center font-medium">
+                    <span><i data-feather="home" class="size-4 text-slate-400 me-3 inline"></i><span
+                        class="text-slate-400 me-3">Address :</span></span>
+                    <span>{{ userById.address || 'Address not provided' }}</span>
+                  </li>
+                  <li class="flex justify-between mt-3 items-center font-medium">
+                    <span><i data-feather="map-pin" class="size-4 text-slate-400 me-3 inline"></i><span
+                        class="text-slate-400 me-3">City :</span></span>
+                    <span>{{ userById.city || 'City not provided' }}</span>
+                  </li>
+                  <li class="flex justify-between mt-3 items-center font-medium">
+                    <span><i data-feather="phone" class="size-4 text-slate-400 me-3 inline"></i><span
+                        class="text-slate-400 me-3">Mobile :</span></span>
+                    <span>{{ userById.phone || 'Phone number not provided' }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div><!--end col-->
+          </div><!--end grid-->
+        </div><!--end container-->
+      </section><!--end section-->
+      <!-- Start -->
+    </div>
+  </div>
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
@@ -86,7 +134,7 @@ const pageTitle = ref('Dashboard')
 const accountStore = useAccountStore()
 const router = useRouter()
 
-const { userById, isLoggedIn } = accountStore
+const { user, userById, isLoggedIn } = accountStore
 
 const editProfile = () => {
   router.push('/accounts/profile')
@@ -100,11 +148,18 @@ const getUserById = async () => {
   await accountStore.getUserById()
 }
 
+const getUser = async () => {
+  await accountStore.getUser()
+}
+
+const hoverText = ref('')
+
 onMounted(() => {
-  if (!isLoggedIn) {
+  if (!accountStore.isLoggedIn) {
     router.push('/login')
   }
   getUserById()
+  getUser()
 })
 
 </script>

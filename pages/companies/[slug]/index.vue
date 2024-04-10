@@ -203,6 +203,38 @@ const fetchJobsByCompany = async () => {
   await jobStore.fetchJobsByCompany(route.params.slug)
 }
 
+const seoCompany = computed(() => {
+  return {
+    title: company.value.name,
+    description: company.value.description,
+    image: company.value.logo,
+    url: router.resolve(route).href,
+    type: 'company',
+    publishedAt: company.value.created_at,
+    modifiedAt: company.value.updated_at,
+    category: company.value.category?.name,
+    openGraph: {
+      title: company.value.name,
+      description: company.value.description,
+      image: company.value.logo,
+      url: router.resolve(route).href,
+      type: 'company',
+      publishedAt: company.value.created_at,
+      modifiedAt: company.value.updated_at,
+      category: company.value.category?.name,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@company',
+      title: company.value.name,
+      description: company.value.description,
+      image: company.value.logo
+    }
+  }
+})
+
+useSeoMeta(seoCompany.value)
+
 onMounted(() => {
   fetchCompany()
   fetchCompaniesByCategory()

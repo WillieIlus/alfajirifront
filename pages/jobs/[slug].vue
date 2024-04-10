@@ -182,42 +182,44 @@ const route = useRoute()
 const router = useRouter()
 
 const { fetchJob, fetchJobsByCategory } = jobStore
+// create a const seoJob for useSeoMeta to add twitter and facebook meta tags
 
-if (job.value && job.value.company) {
-  useSeoMeta({
+const seoJob = computed(() => {
+  return {
     title: job.value.title,
     description: job.value.description,
-    image: job.value.company.logo,
+    image: job.value.company?.logo,
     url: router.currentRoute.value.fullPath,
-    imageAlt: job.value.company.name,
-    imageWidth: 1200,
-    imageHeight: 630,
-    twitterCard: 'summary_large_image',
-    twitterSite: '@site',
-    twitterCreator: '@creator',
-    twitterTitle: job.value.title,
-    twitterDescription: job.value.description,
-    twitterImage: job.value.company.logo,
-    twitterImageAlt: job.value.company.name,
-    twitterImageWidth: 1200,
-    twitterImageHeight: 630,
-    ogType: 'article',
-    ogTitle: job.value.title,
-    ogDescription: job.value.description,
-    ogImage: job.value.company.logo,
-    ogImageAlt: job.value.company.name,
-    ogImageWidth: 1200,
-    ogImageHeight: 630,
-    ogUrl: router.currentRoute.value.fullPath,
-    ogSiteName: 'Site Name',
-    ogLocale: 'en_US',
-    ogArticlePublishedTime: job.value.created_at,
-    ogArticleModifiedTime: job.value.updated_at,
-    ogArticleSection: job.value.category.name,
-    ogArticleTag: job.value.category.name,
-    ogArticleAuthor: job.value.company.name,
-  });
-}
+    type: 'article',
+    article: true,
+    publishedAt: job.value.created_at,
+    modifiedAt: job.value.updated_at,
+    category: job.value.category?.name,
+    tags: job.value.tags,
+    openGraph: {
+      title: job.value.title,
+      description: job.value.description,
+      image: job.value.company?.logo,
+      url: router.currentRoute.value.fullPath,
+      type: 'article',
+      article: true,
+      publishedAt: job.value.created_at,
+      modifiedAt: job.value.updated_at,
+      category: job.value.category?.name,
+      tags: job.value.tags,
+    },
+    twitter: {
+      title: job.value.title,
+      description: job.value.description,
+      image: job.value.company?.logo,
+      url: router.currentRoute.value.fullPath,
+      card: 'summary_large_image',
+      site: '@your-twitter-handle',
+    },
+  }
+})
+
+useSeoMeta(seoJob)
 
 onMounted(async () => {
   await fetchJob(route.params.slug)
