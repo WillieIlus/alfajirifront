@@ -27,7 +27,9 @@
               </ul>
               <ul v-if="isLoggedIn" class="flex" id="navigation-menu">
                 <li v-for="item in formNavigation" :key="item.name" class="relative dropdown">
-                  <button class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white mx-3" data-bs-toggle="dropdown">
+                  <button
+                    class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white mx-3"
+                    data-bs-toggle="dropdown">
                     <NuxtLink :to="item.link" class="px-4 py-2">{{ item.name }}</NuxtLink>
                   </button>
                 </li>
@@ -35,16 +37,25 @@
               <!-- push a div to the right using Tailwind CSS,  -->
             </div>
 
-            <div class="relative ">
+            <div class="relative">
               <button type="button" @click="toggleAuthbar" class="block flex items-center px-4 py-5 dropdown-toggle"
                 id="page-header-user-dropdown" aria-haspopup="true" aria-expanded="true">
-                <img class="h-8 w-8 rounded-full" src="~/assets/images/team/01.jpg"
+                <!-- Display user avatar if logged in -->
+                <img v-if="!isLoggedIn" class="h-8 w-8 rounded-full" src="~/assets/images/team/01.jpg"
                   alt="Header Avatar">
-                <span class="lg:inline-block"></span>
+                <!-- Display user avatar from user object if logged in -->
+                <img v-else-if="isLoggedIn && user.avatar" class="h-8 w-8 rounded-full" :src="user.avatar"
+                  alt="Header Avatar">
+                <!-- Display 'Welcome' message if logged in -->
+                <span v-if="isLoggedIn" class="lg:inline-block"> Welcome {{ user.first_name }}</span>
+                <!-- Display 'Sign Up' if not logged in -->
+                <span v-else class="lg:inline-block"> Sign Up </span>
               </button>
-              <ul v-if="isAuthbarOpen" class="absolute top-auto z-50 w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20">
-
+              <!-- Dropdown menu for authenticated user -->
+              <ul v-if="isAuthbarOpen"
+                class="absolute top-auto z-50 w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20">
                 <li v-for="item in authNavigation" :key="item.name" class="p-2 dropdown-item group/dropdown">
+                  <!-- Render NuxtLink or button based on item action -->
                   <NuxtLink v-if="!item.action" class="" :to="item.link">{{ item.name }}</NuxtLink>
                   <button v-else @click="item.action" class="">{{ item.name }}</button>
                 </li>
@@ -62,7 +73,9 @@
               </button>
             </li>
             <li v-if="isLoggedIn" v-for="item in formNavigation" :key="item.name" class="relative dropdown">
-              <button class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white m-3" data-bs-toggle="dropdown">
+              <button
+                class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white m-3"
+                data-bs-toggle="dropdown">
                 <NuxtLink :to="item.link" class="block px-4 py-2">{{ item.name }}</NuxtLink>
               </button>
             </li>
