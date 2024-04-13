@@ -8,7 +8,7 @@
           <div class="relative shrink-0">
             <img v-if="userById.avatar" class="h-64 w-full object-cover lg:rounded-xl shadow dark:shadow-gray-700"
               alt="">
-            <img v-else src="assets/images/team/01.jpg"
+            <img v-else src="~/assets/images/team/01.jpg"
               class="h-64 w-full object-cover lg:rounded-xl shadow dark:shadow-gray-700" alt="Default Image">
           </div>
           <div class="md:flex mx-4 -mt-12">
@@ -16,6 +16,9 @@
               <div class="relative flex items-end justify-between">
                 <div class="relative flex items-end">
                   <img v-if="userById.avatar"
+                    class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
+                    alt="">
+                    <img v-else src="~/assets/images/team/01.jpg" 
                     class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
                     alt="">
                   <div class="ms-4">
@@ -127,14 +130,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAccountStore } from '~/store/accounts'
 
-const pageTitle = ref('Dashboard')
+import { useAccountStore } from '~/store/accounts'
 
 const accountStore = useAccountStore()
 const router = useRouter()
 
-const { user, userById, isLoggedIn } = accountStore
+const { user, userById, loading, error } = storeToRefs(accountStore)
 
 const editProfile = () => {
   router.push('/accounts/profile')
@@ -152,7 +154,6 @@ const getUser = async () => {
   await accountStore.getUser()
 }
 
-const hoverText = ref('')
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {

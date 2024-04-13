@@ -205,7 +205,10 @@ const onSubmit = async (values) => {
     data.append('category', values.category);
     data.append('description', values.description);
     data.append('salary', values.salary);
-    data.append('image', image.value);
+    if (image.value) {
+      data.append('image', image.value);
+    }
+    // data.append('image', image.value);
     console.log('FormData:', data); // Log the FormData object being submitted
     await jobStore.createJob(data);
     successMessage.value = 'Job created successfully';

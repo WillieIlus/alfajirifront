@@ -189,7 +189,6 @@ const getUser = async () => {
   await accountStore.getUser()
 }
 const name = ref('')
-const slug = ref('')
 const description = ref('')
 const phone = ref('')
 const website = ref('')
@@ -222,7 +221,6 @@ const schema = yup.object({
 
 const onSubmit = async (values) => {
   submitting.value = true
-  slug.value = values.name.toLowerCase().replace(/ /g, '-')
   try {
     const data = new FormData()
     data.append('name', values.name)
@@ -233,31 +231,27 @@ const onSubmit = async (values) => {
     data.append('address', values.address)
     data.append('category', values.category)
     data.append('location', values.location)
-    data.append('logo', logo.value)
-    data.append('cover', cover.value)
-    console.log('data:', data)
+    if (logo.value !== null) {
+      data.append('logo', logo.value);
+    }
+    if (cover.value !== null) {
+      data.append('cover', cover.value);
+    }
+    console.log('FormData:', data); // Log the FormData object being submitted
     await companyStore.createCompany(data);
-    console.log('Company created successfully');
-    successMessage.value = 'Company created successfully'
+    successMessage.value = 'Job created successfully';
+    // createFormData();
     setTimeout(() => {
-      successMessage.value = ''
-      router.push(`/companies/${slug.value}`)
-    }, 2000)
+      successMessage.value = 'redirecting to the Companies detail'
+      router.push(`/companies/`)
+    }, 2000
+    )
+    submitting.value = false;
   } catch (error) {
-    console.log(error)
-    errorMessage.value = 'An error occurred. Please try again.'
-  } finally {
-    submitting.value = false
+    errorMessage.value = 'Failed to create company';
+    submitting.value = false;
   }
-}
-
-const breadcrumbs = [
-  { label: 'Home', to: '/' },
-  { label: 'Companies', to: '/companies' },
-  { label: 'Create Company', to: '/Company/form' }
-];
-
-const pageTitle = 'Create Company';
+};
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {
