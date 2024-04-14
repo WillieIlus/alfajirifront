@@ -27,7 +27,7 @@
                 <img v-if="company.logo"  :src="company.logo"
                   class="size-14 shadow-md dark:shadow-gray-800 rounded-md p-2 bg-white dark:bg-slate-900" alt="">
                 <div class="ms-4">
-                  <h5 class="text-xl font-bold" v-if="company.name" > {{ company.name || 'Companies Name' }}</h5>
+                  <h5 class="text-xl font-bold" v-if="company.name" > {{ company?.name || 'Companies Name' }}</h5>
                   <h6 class="text-base text-slate-400" v-if="company.location" >
                     <Icon name="uil:map-marker" /> {{ company.location.name || 'Location' }}
                   </h6>
@@ -68,7 +68,7 @@
                   <div class="flex items-center p-6 border-t border-gray-100 dark:border-gray-700">
                     <img v-if="job.company" :src="job.company?.logo || '~/assets/images/favicon.png'" class="size-12 shadow-md dark:shadow-gray-800 rounded-md p-2 bg-white dark:bg-slate-900" alt="">
                     <div class="ms-3">
-                      <h6  class="mb-0 font-semibold text-base">{{ job.company?.name }}</h6>
+                      <h6  class="mb-0 font-semibold text-base">{{ job.company?.name || 'company' }}</h6>
                       <span class="text-slate-400 text-sm">{{ job.location?.name || 'location' }}</span>
                     </div>
                   </div>
@@ -133,7 +133,7 @@
               </div>
               <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between">
                 <span class="text-slate-400" v-if="relatedCompany.location">
-                  <Icon name="uil:map-marker" />{{ relatedCompany.location.name }}
+                  <Icon name="uil:map-marker" />{{ relatedCompany.location?.name || 'location'}}
                 </span>
                 <span class="block font-semibold text-emerald-600">{{ relatedCompany.job_count }} Jobs</span>
               </div>
@@ -203,37 +203,37 @@ const fetchJobsByCompany = async () => {
   await jobStore.fetchJobsByCompany(route.params.slug)
 }
 
-const seoCompany = computed(() => {
-  return {
-    title: company.value.name,
-    description: company.value.description,
-    image: company.value.logo,
-    url: router.resolve(route).href,
-    type: 'company',
-    publishedAt: company.value.created_at,
-    modifiedAt: company.value.updated_at,
-    category: company.value.category?.name,
-    openGraph: {
-      title: company.value.name,
-      description: company.value.description,
-      image: company.value.logo,
-      url: router.resolve(route).href,
-      type: 'company',
-      publishedAt: company.value.created_at,
-      modifiedAt: company.value.updated_at,
-      category: company.value.category?.name,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      site: '@company',
-      title: company.value.name,
-      description: company.value.description,
-      image: company.value.logo
-    }
-  }
-})
+// const seoCompany = computed(() => {
+//   return {
+//     title: company.value.name,
+//     description: company.value.description,
+//     image: company.value.logo,
+//     url: router.resolve(route).href,
+//     type: 'company',
+//     publishedAt: company.value.created_at,
+//     modifiedAt: company.value.updated_at,
+//     category: company.value.category?.name,
+//     openGraph: {
+//       title: company.value.name,
+//       description: company.value.description,
+//       image: company.value.logo,
+//       url: router.resolve(route).href,
+//       type: 'company',
+//       publishedAt: company.value.created_at,
+//       modifiedAt: company.value.updated_at,
+//       category: company.value.category?.name,
+//     },
+//     twitter: {
+//       card: 'summary_large_image',
+//       site: '@company',
+//       title: company.value.name,
+//       description: company.value.description,
+//       image: company.value.logo
+//     }
+//   }
+// })
 
-useSeoMeta(seoCompany.value)
+// useSeoMeta(seoCompany.value)
 
 onMounted(() => {
   fetchCompany()

@@ -88,11 +88,21 @@ export default {
         3: '3',
         999: '999',
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
+      keyframes: {
+        spin: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+      },
     },
   },
-  plugins: [
-    require("tailwindcss/forms"), ({
-      strategy: 'class', // only generate class based styles
-    })
-  ],
-}
+    plugins: [
+      require("tailwindcss/forms"), ({
+        strategy: 'class', // only generate class based styles
+      })
+    ],
+  }
+  

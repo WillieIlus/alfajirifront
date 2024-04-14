@@ -150,13 +150,13 @@
   <!-- End -->
 </template>
 <script setup>
-import { ref } from 'vue';
-import { Form, Field, ErrorMessage } from 'vee-validate';
+import { ref } from 'vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup';
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
-import { useCompanyStore } from '~/store/companies';
+import { useCompanyStore } from '~/store/companies'
 import { useCategoryStore } from '~/store/categories'
 import { useLocationStore } from '~/store/locations'
 import { useAccountStore } from '~/store/accounts'

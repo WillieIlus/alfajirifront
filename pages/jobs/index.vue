@@ -27,13 +27,7 @@
     <!-- Start -->
     <section class="relative md:py-24 py-16">
         <div class="container">
-            <div v-if="loading" class="col-span-12 text-center">
-                <div class="spinner">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
-            </div>
+            <SpinnerFlex v-if="loading" />
             <div v-if="error" class="col-span-12 text-center">
                 <p class="text-red-500">Error: {{ error.message }}</p>
             </div>

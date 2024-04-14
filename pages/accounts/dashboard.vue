@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading">Loading...</div>
+  <SpinnerFlex v-if="loading" />
   <div v-else-if="error">{{ error }}</div>
   <div v-else>
     <div v-if="userById">
@@ -15,7 +15,7 @@
             <div class="md:w-full">
               <div class="relative flex items-end justify-between">
                 <div class="relative flex items-end">
-                  <img v-if="userById.avatar"
+                  <img v-if="userById.avatar" :src="userById.avatar"
                     class="size-28 rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
                     alt="">
                     <img v-else src="~/assets/images/team/01.jpg" 

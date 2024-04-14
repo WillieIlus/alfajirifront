@@ -6,7 +6,7 @@ export const useJobStore = defineStore('job', {
   state: () => ({
     jobs: [],
     currentPage: 1,
-    itemsPerPage: 8,
+    itemsPerPage: 3,
     job: null,
     loading: false,
     error: null,
