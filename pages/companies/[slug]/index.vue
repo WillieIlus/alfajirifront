@@ -34,11 +34,14 @@
                 </div>
               </div>
               <div class="md:mt-0 mt-4">
-                <a href=""
-                  class="btn btn-sm bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">Follow</a>
-                <a href=""
-                  class="btn btn-sm bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-1">See
-                  Jobs </a>
+                <!--- edit link company with slug -->
+                <NuxtLink :to="`/companies/${company.slug}/edit-company`" class="btn btn-sm bg-emerald-600 hover:bg-emerald-700 border-emerald-600 dark:border-emerald-600 text-white rounded-md">
+                  Edit Company
+                </NuxtLink>
+                <!-- this link should locate jobs under the same page down of the page -->
+                <a href="" class="btn btn-sm bg-emerald-600/5 hover:bg-emerald-600 border-emerald-600/10 hover:border-emerald-600 text-emerald-600 hover:text-white rounded-md ms-1">
+                  See Jobs
+                </a>
               </div>
             </div>
           </div>

@@ -125,18 +125,51 @@
       </section><!--end section-->
       <!-- Start -->
     </div>
+  
   </div>
+  <div v-if="companies">
+    <section class="relative md:py-24 py-16">
+      <div class="container">
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-[30px]">
+          <div v-for="company in companies" :key="company.id"
+            class="group relative p-6 rounded-md shadow dark:shadow-gray-700 mt-6">
+            <div class="size-14 flex items-center justify-center bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-700 rounded-md relative -mt-12">
+              <img :src="company.logo" class="size-8" :alt="company.name">
+            </div>
+  
+            <div class="mt-4">
+              <NuxtLink :to="`/companies/${company.slug}`"
+                class="text-lg hover:text-emerald-600 font-semibold">{{ company.name }}</NuxtLink>
+              <p class="mt-2 text-slate-400 dark:text-slate-500 truncate">{{ company.truncated_description || 'Description not available' }}</p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between">
+              <span class="text-slate-400">
+                <Icon name="uil:map-marker" />{{ company.get_location || 'Location not specified' }}
+              </span>
+              <span class="block font-semibold text-emerald-600">{{ company.total_jobs || 0 }} Jobs</span>
+            </div>
+          </div><!--end content-->
+        </div><!--end grid-->
+      </div><!--end container-->
+    </section><!--end section-->
+  </div>
+
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 import { useAccountStore } from '~/store/accounts'
+import { useCompanyStore } from '~/store/companies'
 
-const accountStore = useAccountStore()
 const router = useRouter()
+const accountStore = useAccountStore()
+const companyStore = useCompanyStore()
 
 const { user, userById, loading, error } = storeToRefs(accountStore)
+const { companies } = storeToRefs(companyStore)
+
 
 const editProfile = () => {
   router.push('/accounts/profile')
@@ -154,6 +187,10 @@ const getUser = async () => {
   await accountStore.getUser()
 }
 
+const fetchMyCompanies = async () => {
+  await companyStore.fetchMyCompanies()
+}
+
 
 onMounted(() => {
   if (!accountStore.isLoggedIn) {
@@ -161,6 +198,7 @@ onMounted(() => {
   }
   getUserById()
   getUser()
+  fetchMyCompanies()
 })
 
 </script>

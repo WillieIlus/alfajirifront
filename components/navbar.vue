@@ -154,6 +154,7 @@ const authNavigation = computed(() => {
 const userNavigation = [
   { name: 'Profile', link: '/accounts/profile', current: route.name.includes('profile') },
   { name: 'Settings', link: '/accounts/settings', current: route.name.includes('settings') },
+  { name: 'Dashboard', link: '/accounts/dashboard', current: route.name.includes('dashboard') },
   { name: 'Logout', action: logout },
 ]
 

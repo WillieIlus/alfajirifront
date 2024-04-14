@@ -165,7 +165,7 @@
                             <a href="job-apply.html" class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">Apply Now</a>
                         </div>
 
-                        <span class="w-24 bg-yellow-400 text-white text-center absolute ltr:-rotate-45 rtl:rotate-45 -start-[30px] top-1"><i class="uil uil-star"></i></span>
+                        <span class="w-24 bg-yellow-400 text-white text-center absolute ltr:-rotate-45 rtl:rotate-45 -start-[30px] top-1"><Icon name="uil:uil-star" /></span>
                     </div><!--end content-->
                     
                     <div class="group relative overflow-hidden md:flex justify-between items-center rounded shadow hover:shadow-md dark:shadow-gray-700 transition-all duration-500 p-5">
@@ -550,8 +550,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 router.push('/jobs')
-
-
 
 const categoryStore = useCategoryStore();
 const jobStore = useJobStore()

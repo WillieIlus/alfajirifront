@@ -76,8 +76,8 @@ export const useCompanyStore = defineStore('company', {
         this.loading = false;
       }
     },
-    async createCompany(data){
-      try{
+    async createCompany(data) {
+      try {
         const accountStore = useAccountStore();
         const token = accountStore.token;
         const headers = {
@@ -100,7 +100,7 @@ export const useCompanyStore = defineStore('company', {
         console.error('Error submitting form:', error);
 
       }
-    },    
+    },
     async fetchCompany(slug) {
       this.loading = true;
       await this.handleError(async () => {
@@ -111,20 +111,37 @@ export const useCompanyStore = defineStore('company', {
       });
     },
 
-    async updateCompany(company) {
+    async updateCompany(slug, data) {
       await this.handleError(async () => {
+        const accountStore = useAccountStore();
+        const token = accountStore.token;
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-        const response = await fetch(`${BASE_URL}/companies/${company.slug}/`, {
+        // Create a new FormData instance
+        const formData = new FormData();
+
+        // Append each property in data to formData
+        for (const property in data) {
+          // If the property is a File object (like logo or cover), append it as a file
+          if (data[property] instanceof File) {
+            formData.append(property, data[property]);
+          } else {
+            // Otherwise, append it as a string
+            formData.append(property, data[property]);
+          }
+        }
+
+        const response = await fetch(`${BASE_URL}/companies/${slug}/`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${useAccountStore.token}`,
-          },
-          body: JSON.stringify(company),
+          headers: headers,
+          body: formData, // Use formData instead of JSON
         });
-        const data = await response.json();
-        const index = this.companies.findIndex((c) => c.slug === data.slug);
-        this.companies[index] = data;
+
+        const updatedCompany = await response.json();
+        const index = this.companies.findIndex((c) => c.slug === slug);
+        this.companies[index] = updatedCompany;
       });
     },
 

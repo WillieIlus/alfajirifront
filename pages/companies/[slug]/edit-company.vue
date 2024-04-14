@@ -42,9 +42,6 @@
       <div class="lg:flex justify-center">
         <div class="lg:w-2/3">
           <div class="p-6 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-            <SpinnerFlex v-if="loading" />
-            <div v-if="error" class="text-rose-500">{{ error }}</div>
-            <div v-else>
             <Form @submit="onSubmit" :validation-schema="schema" class="text-start">
               <div class="grid grid-cols-1">
                 <h5 class="text-lg font-semibold">Company Details:</h5>
@@ -117,11 +114,13 @@
 
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Logo:</label>
+                  <img :src="logo.value" alt="Logo" v-if="logo?.value" />
                   <input type="file" @change="onLogoChange"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Logo ">
                 </div>
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Upload Cover:</label>
+                  <img :src="cover.value" alt="Cover" v-if="cover?.value" />
                   <input type="file" @change="onCoverChange"
                     class="form-input border border-slate-100 dark:border-slate-800 mt-1" placeholder="Upload Cover ">
                 </div>
@@ -145,7 +144,6 @@
                 </div>
               </div>
             </Form><!--end form-->
-            </div>
           </div>
         </div>
       </div><!--end flex-->
@@ -153,12 +151,13 @@
   </section><!--end section-->
   <!-- End -->
 </template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
-import { useForm } from 'vee-validate'
+import { storeToRefs } from 'pinia'
+
 import { useCompanyStore } from '~/store/companies'
 import { useCategoryStore } from '~/store/categories'
 import { useLocationStore } from '~/store/locations'
@@ -168,30 +167,49 @@ const companyStore = useCompanyStore()
 const categoryStore = useCategoryStore()
 const locationStore = useLocationStore()
 const accountStore = useAccountStore()
-const router = useRouter()
-const route = useRoute()
 
-const { loading, error, company } = storeToRefs(companyStore)
+const { company, loading, error } = storeToRefs(companyStore)
 const { categories } = storeToRefs(categoryStore)
 const { locations } = storeToRefs(locationStore)
 const { user } = storeToRefs(accountStore)
 
-// Form fields and submission status
-const { fields, meta, resetForm } = useForm()
-const submitting = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
+const submitting = ref(false)
 
-// Redirect to login if user is not logged in
-onMounted(() => {
-  if (!accountStore.isLoggedIn) {
-    router.push('/login')
-  }
-  fetchCompany()
-  fetchLocations()
-  fetchCategories()
-})
+const route = useRoute()
+const router = useRouter()
 
+const fetchCompany = async () => {
+  await companyStore.fetchCompany(route.params.slug)
+  // After fetching the company data, initialize the form fields
+  name.value = company.value.name
+  description.value = company.value.description
+  phone.value = company.value.phone
+  website.value = company.value.website
+  email.value = company.value.email
+  address.value = company.value.address
+  category.value = company.value.category
+  location.value = company.value.location
+  logo.value = `companies/logos/${company.value.logo}`
+  cover.value = `companies/covers/${company.value.cover}`
+  // For file inputs like logo and cover, you might need a different approach
+  // You can use a different method to fetch the logo and cover images
+
+}
+
+const fetchCompanies = async () => {
+  await companyStore.fetchCompanies()
+}
+const fetchCategories = async () => {
+  await categoryStore.fetchCategories()
+}
+const fetchLocations = async () => {
+  await locationStore.fetchLocations()
+}
+const getUser = async () => {
+  await accountStore.getUser()
+}
 const name = ref('')
 const description = ref('')
 const phone = ref('')
@@ -203,91 +221,80 @@ const location = ref('')
 const logo = ref(null)
 const cover = ref(null)
 
-// Fetch company details on component mount
-const fetchCompany = async () => {
-  try {
-    await companyStore.fetchCompany(route.params.slug)
-    // Populate form fields with company data
-    if (company.value) {
-      const name = company.value.name
-      const description = company.value.description
-      const email = company.value.email
-      const phone = company.value.phone
-      const address = company.value.address
-      const website = company.value.website
-      const location = company.value.location
-      const category = company.value.category
-      if (company.value.logo) {
-        logo.value = company.value.logo
-      }
-      if (company.value.cover) {
-        cover.value = company.value.cover
-      }
-      fields.value = { name, description, email, phone, address, website, location, category, logo, cover
-      }
-    }
-  } catch (error) {
-    console.error('OOPS!! Failed to fetch company:', error)
-    errorMessage.value = 'Failed to fetch company'
+// const onLogoChange = (e) => {
+//   logo.value = e.target.files[0]
+// }
+// const onCoverChange = (e) => {
+//   cover.value = e.target.files[0]
+// }
+
+const onLogoChange = (event) => {
+  if (event.target && event.target.files && event.target.files[0]) {
+    logo.value = URL.createObjectURL(event.target.files[0]);
   }
-}
+};
 
-
-// Fetch locations from the store
-const fetchLocations = async () => {
-  try {
-    await locationStore.fetchLocations()
-  } catch (error) {
-    console.error('Failed to fetch locations:', error)
-    errorMessage.value = 'Failed to fetch locations'
+const onCoverChange = (event) => {
+  if (event.target && event.target.files && event.target.files[0]) {
+    cover.value = URL.createObjectURL(event.target.files[0]);
   }
-}
+};
 
-// Fetch categories from the store
-const fetchCategories = async () => {
-  try {
-    await categoryStore.fetchCategories()
-  } catch (error) {
-    console.error('Failed to fetch categories:', error)
-    errorMessage.value = 'Failed to fetch categories'
-  }
-}
-
-// Validation schema for form fields
 const schema = yup.object({
   name: yup.string().required(),
   description: yup.string().required(),
-  email: yup.string().email().required(),
   phone: yup.string().required(),
-  address: yup.string().required(),
-  website: yup.string().required(),
-  location: yup.string().required(),
-  category: yup.string().required(),
+  website: yup.string(),
+  email: yup.string().required(),
+  address: yup.string(),
+  category: yup.string(),//.required(),
+  location: yup.string(),//.required(),
+  logo: yup.mixed(),
+  cover: yup.mixed()
 })
 
-// Submit handler for updating company
-const onSubmit = async () => {
+const onSubmit = async (values) => {
+  submitting.value = true
   try {
-    submitting.value = true
-    const formData = { ...fields.value } // Clone form data
-    const slug = router.currentRoute.value.params.slug
-    await companyStore.updateCompany(slug, formData)
-    successMessage.value = 'Company updated successfully'
-    resetForm() // Reset form after successful submission
+    const data = new FormData()
+    data.append('name', values.name)
+    data.append('description', values.description)
+    data.append('phone', values.phone)
+    data.append('website', values.website)
+    data.append('email', values.email)
+    data.append('address', values.address)
+    data.append('category', JSON.parse(values.category.name));
+    data.append('location', JSON.parse(values.location.name));
+    if (logo.value !== null) {
+      data.append('logo', logo.value);
+    }
+    if (cover.value !== null) {
+      data.append('cover', cover.value);
+    }
+    console.log('FormData:', data); // Log the FormData object being submitted
+    await companyStore.updateCompany(route.params.slug, data); // Call updateCompany instead of createCompany
+    successMessage.value = 'Company updated successfully';
+    setTimeout(() => {
+      successMessage.value = 'redirecting to the Companies detail'
+      router.push(`/companies/`)
+    }, 2000
+    )
+    submitting.value = false;
   } catch (error) {
-    console.error('Failed to update company:', error)
-    errorMessage.value = 'Failed to update company'
-  } finally {
-    submitting.value = false
+    errorMessage.value = 'Failed to update company';
+    submitting.value = false;
   }
-}
+};
+
+onMounted(() => {
+  if (!accountStore.isLoggedIn) {
+    router.push('/login')
+  }
+  fetchCompanies()
+  fetchCategories()
+  fetchLocations()
+  getUser()
+  fetchCompany()
+})
+
 </script>
-
-
-
-
-
-
-
-
-
