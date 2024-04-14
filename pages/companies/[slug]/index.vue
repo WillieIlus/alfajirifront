@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="loading" class="col-span-12 text-center">
-      <div class="spinner"></div>
-    </div>
+    <SpinnerFlex v-if="loading" />
     <div v-if="error" class="col-span-12 text-center">
       <p class="text-red-500">Error: {{ error.message }}</p>
     </div>

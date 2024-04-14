@@ -32,15 +32,13 @@
     <div class="container mt-10">
       <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
         <div class="lg:col-span-8 md:col-span-6">
-          <div v-if="loading" class="text-center">
-            <div class="spinner spinner-primary"></div>
-          </div>
+          <SpinnerFlex v-if="loading" />
           <div v-else-if="error" class="text-center">
             <p class="text-red-500">{{ error }}</p>
           </div>
           <div v-if="job">
             <div class="md:flex items-center p-6 shadow dark:shadow-gray-700 rounded-md bg-white dark:bg-slate-900">
-              <img :src = "job.company?.logo || '~/assets/images/favicon.png'"
+              <img :src="job.company?.logo || '~/assets/images/favicon.png'"
                 class="rounded-full size-28 p-4 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700" alt="">
               <div class="md:ms-4 md:mt-0 mt-6">
                 <h5 class="text-xl font-semibold">{{ job.title || 'Job Title' }}</h5>
@@ -99,7 +97,8 @@
                   <Icon name="uil:map-pin" class="size-5" />
                   <div class="ms-4">
                     <p class="font-medium">Location:</p>
-                    <span class="text-emerald-600 font-medium text-sm">{{ job.address || job.location.name || 'Not Specified' }}</span>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job?.address || 'Not Specified' }}</span>
+                    <span class="text-emerald-600 font-medium text-sm">{{ job.location?.name || 'Not Specified' }}</span>
                   </div>
                 </li>
                 <!-- Other job information here -->

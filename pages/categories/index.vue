@@ -30,8 +30,9 @@
     </div>
   </div>
   <!-- End Hero -->
-
+  <SpinnerFlex v-if="loading" />
   <!-- Start -->
+  <div v-if="categories">
   <section class="relative md:py-24 py-16">
     <div class="container">
       <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[30px]">
@@ -188,7 +189,8 @@
         </div><!--end grid-->
       </div><!--end container-->
     </div><!--end container-->
-  </section><!--end section-->
+  </section>
+  </div><!--end section-->
   <!-- End -->
   </template>
   
