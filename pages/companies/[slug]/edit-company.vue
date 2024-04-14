@@ -208,10 +208,26 @@ const fetchCompany = async () => {
   try {
     await companyStore.fetchCompany(route.params.slug)
     // Populate form fields with company data
-    const { name, description, email, phone, address, website, location, category } = company.value
-    fields.value = { name, description, email, phone, address, website, location, category }
+    if (company.value) {
+      const name = company.value.name
+      const description = company.value.description
+      const email = company.value.email
+      const phone = company.value.phone
+      const address = company.value.address
+      const website = company.value.website
+      const location = company.value.location
+      const category = company.value.category
+      if (company.value.logo) {
+        logo.value = company.value.logo
+      }
+      if (company.value.cover) {
+        cover.value = company.value.cover
+      }
+      fields.value = { name, description, email, phone, address, website, location, category, logo, cover
+      }
+    }
   } catch (error) {
-    console.error('Failed to fetch company:', error)
+    console.error('OOPS!! Failed to fetch company:', error)
     errorMessage.value = 'Failed to fetch company'
   }
 }
