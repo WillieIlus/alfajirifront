@@ -61,9 +61,17 @@
                   <label class="font-semibold" for="description">Job Description</label>
                   <Field as="textarea" v-model="description" name="description" id="description"
                     placeholder="Enter job description"
-                    class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea" />
+                    class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea overflow-auto" />
                   <ErrorMessage name="description" class="text-red-500 text-xs italic" />
                 </div>
+              
+<!--<div class="col-span-12 text-start">
+  <label class="font-semibold" for="description">Job Description</label>
+  <EditorContent :editor="editor"
+    class="form-input border border-slate-100 dark:border-slate-800 mt-1 textarea h-32 overflow-auto" />
+  <ErrorMessage name="description" class="text-red-500 text-xs italic" />
+</div>-->
+
                 <div class="md:col-span-6 col-span-12 text-start">
                   <label class="font-semibold">Location:</label>
                   <Field as="select" v-model="location" name="location"
@@ -124,8 +132,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { Form, Field, ErrorMessage } from 'vee-validate';
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import { useEditor } from '@tiptap/vue-3'
 
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -136,6 +147,8 @@ import { useCompanyStore } from '~/store/companies'
 import { useLocationStore } from '~/store/locations'
 import { useCategoryStore } from '~/store/categories'
 import { useAccountStore } from '~/store/accounts'
+
+let editor;
 
 const router = useRouter()
 
@@ -152,7 +165,7 @@ const { user } = storeToRefs(accountStore)
 const { job, jobs, error, laoding } = storeToRefs(jobStore)
 
 const fetchCompanies = async () => {
-  await companyStore.fetchCompanies()
+  await companyStore.fetchMyCompanies()
 }
 
 const fetchLocations = async () => {
@@ -196,7 +209,7 @@ const schema = yup.object({
 
 
 const onSubmit = async (values) => {
-  submitting.value = true; 
+  submitting.value = true;
   try {
     const data = new FormData();
     data.append('title', values.title);
@@ -228,6 +241,14 @@ const onSubmit = async (values) => {
 
 
 onMounted(() => {
+
+  editor = useEditor({
+    extensions: [
+      StarterKit,
+    ],
+    content: '',
+  })
+
   if (!accountStore.isLoggedIn) {
     router.push('/login')
   }
