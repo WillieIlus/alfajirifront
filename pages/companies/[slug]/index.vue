@@ -49,8 +49,8 @@
           <div class="grid md:grid-cols-12 grid-cols-1 gap-[30px]">
             <div class="lg:col-span-8 md:col-span-7">
               <h5 class="text-xl font-semibold">Company Story</h5>
-              <p class="text-slate-400 mt-4">{{ company.description }}</p>
-              <h5 class="text-xl font-semibold mt-6">Vacancies:</h5>
+              <div class="prose text-slate-400 mt-4" v-html="company.description"></div>
+             <h5 class="text-xl font-semibold mt-6">Vacancies:</h5>
               <div class="grid lg:grid-cols-2 grid-cols-1 gap-6 mt-6">
                 <div v-for="job in jobs" :key="job.id"
                   class="group relative overflow-hidden rounded-md shadow dark:shadow-gray-800">
@@ -181,7 +181,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCompanyStore } from '~/store/companies'
 import { useJobStore } from '~/store/jobs'
-import { routeLocationKey } from 'vue-router'
+import * as marked from 'marked'
 
 const companyStore = useCompanyStore()
 const jobStore = useJobStore()
@@ -191,6 +191,7 @@ const { jobs } = storeToRefs(jobStore)
 
 const route = useRoute()
 const router = useRouter()
+
 
 const fetchCompany = async () => {
   await companyStore.fetchCompany(route.params.slug)
@@ -203,6 +204,7 @@ const fetchCompaniesByCategory = async () => {
 const fetchJobsByCompany = async () => {
   await jobStore.fetchJobsByCompany(route.params.slug)
 }
+
 
 // const seoCompany = computed(() => {
 //   return {

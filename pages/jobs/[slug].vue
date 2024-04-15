@@ -68,8 +68,7 @@
             </div>
 
             <h5 class="text-lg font-semibold mt-6">Job Description:</h5>
-            <p class="text-slate-400 mt-4">{{ job.description || 'Job description not available' }}</p>
-
+            <div class="prose dark:prose-dark text-slate-400 mt-4 " v-html="job.description"></div>
             <div class="mt-5">
               <NuxtLink :to="'mailto:' + (job.email || '')"
                 class="btn rounded-md bg-emerald-600 hover:bg-emerald-700 border-emerald-600 hover:border-emerald-700 text-white md:ms-2 w-full md:w-auto">

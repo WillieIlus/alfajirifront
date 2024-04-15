@@ -12,14 +12,11 @@ export const useAccountStore = defineStore('account', {
     error: null,
 
   }),
-
   getters: {
     isLoggedIn: (state) => !!state.token,
 
   },
-
   actions: {
-
     async signup(first_name, phone, email, password) {
       try {
         const response = await fetch(`${BASE_URL}/accounts/users/`, {
@@ -40,7 +37,6 @@ export const useAccountStore = defineStore('account', {
         console.error('signup failed', error);
       }
     },
-
 
     async login(email, password) {
       const response = await fetch(`${BASE_URL}/accounts/jwt/create/`, {
@@ -76,8 +72,6 @@ export const useAccountStore = defineStore('account', {
     },
 
     async getUserById() {
-      // id is undefined, so I am not able to get the user by id, I am getting the user by id from the url
-      // get id from request.user.id
       const id = this.user.id
       const response = await fetch(`${BASE_URL}/accounts/${id}/`, {
         method: 'GET',

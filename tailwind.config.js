@@ -102,7 +102,8 @@ export default {
     plugins: [
       require("tailwindcss/forms"), ({
         strategy: 'class', // only generate class based styles
-      })
+      }),
+      require('@tailwindcss/typography'),
     ],
   }
   

@@ -8,3 +8,16 @@
         <Footer />
     </div>
 </template>
+<script setup>
+
+// load user 
+import { useAccountStore } from '~/store/accounts'
+import { storeToRefs } from 'pinia'
+
+const accountStore = useAccountStore()
+const { user } = storeToRefs(accountStore)
+
+onMounted(() => {
+    accountStore.getUser()
+})
+</script>
